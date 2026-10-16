@@ -1,0 +1,1937 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Шеф AI — рецепты от искусственного интеллекта</title>
+<meta name="description" content="Шеф AI создаёт рецепты под ваш запрос: продукты из холодильника, диета, аллергии и время. Ингредиенты с граммовкой, шаги, КБЖУ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json" id="ld"></script>
+<style>
+:root{
+  --bg:#fdf8f3;--surface:#ffffff;--surface-2:#f8efe5;--text:#2a1f17;--muted:#7b6a5b;--border:#eadccd;
+  --accent:#d9480f;--accent-hover:#b93c0b;--accent-soft:#ffe8d9;--on-accent:#fff;
+  --green:#2b8a3e;--green-soft:#e3f5e7;--red:#c92a2a;--red-soft:#ffe3e3;--yellow-soft:#fff4c7;--yellow-text:#7a5b00;
+  --shadow:0 1px 2px rgba(60,35,15,.06),0 8px 24px rgba(60,35,15,.08);--radius:18px;color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16110d;--surface:#211a15;--surface-2:#2b221b;--text:#f5ece4;--muted:#b4a395;--border:#3b3028;
+  --accent:#ff8a4c;--accent-hover:#ffa36f;--accent-soft:#3d2416;--on-accent:#1b120c;
+  --green:#69db7c;--green-soft:#1d3323;--red:#ff8787;--red-soft:#3b1f1f;--yellow-soft:#3a3115;--yellow-text:#ffe08a;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#16110d;--surface:#211a15;--surface-2:#2b221b;--text:#f5ece4;--muted:#b4a395;--border:#3b3028;
+  --accent:#ff8a4c;--accent-hover:#ffa36f;--accent-soft:#3d2416;--on-accent:#1b120c;
+  --green:#69db7c;--green-soft:#1d3323;--red:#ff8787;--red-soft:#3b1f1f;--yellow-soft:#3a3115;--yellow-text:#ffe08a;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);color-scheme:dark;}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+a{color:var(--accent)}
+a:hover{color:var(--accent-hover)}
+h1,h2,h3{line-height:1.2;margin:0 0 .5em;letter-spacing:-.01em}
+h1{font-size:clamp(1.8rem,4.5vw,3rem);font-weight:800}
+h2{font-size:clamp(1.3rem,2.6vw,1.75rem);font-weight:800}
+h3{font-size:1.05rem;font-weight:700}
+p{margin:0 0 1em}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:8px;background:var(--accent);color:var(--on-accent);padding:8px 14px;border-radius:8px;z-index:100}
+.skip:focus{left:8px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+.muted{color:var(--muted)}
+.section{padding:40px 0}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.section-head h2{margin:0}
+
+/* header */
+.site-header{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.header-inner{display:flex;align-items:center;gap:16px;height:64px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.2rem;color:var(--text);text-decoration:none;white-space:nowrap}
+.logo .mark{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--accent);color:var(--on-accent);font-size:1.2rem}
+.nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1}
+.nav::-webkit-scrollbar{display:none}
+.nav a{padding:8px 12px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:600;white-space:nowrap;font-size:.95rem}
+.nav a:hover{color:var(--text);background:var(--surface-2)}
+.nav a[aria-current="page"]{color:var(--accent);background:var(--accent-soft)}
+.icon-btn{border:1px solid var(--border);background:var(--surface);width:40px;height:40px;border-radius:12px;cursor:pointer;display:grid;place-items:center;flex:none}
+.icon-btn:hover{border-color:var(--accent)}
+@media (max-width:720px){.header-inner{height:auto;flex-wrap:wrap;padding:10px 0;gap:8px}.nav{order:3;flex-basis:100%}.logo{flex:1}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);padding:10px 16px;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none;font-size:.95rem;transition:background .15s,border-color .15s,transform .05s}
+.btn:hover{border-color:var(--accent);color:var(--text)}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn-primary:hover{background:var(--accent-hover);border-color:var(--accent-hover);color:var(--on-accent)}
+.btn-lg{padding:14px 22px;font-size:1.05rem;border-radius:14px}
+.btn-sm{padding:6px 10px;font-size:.85rem;border-radius:10px}
+.btn-ghost{background:transparent}
+.btn-danger{color:var(--red)}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--surface);padding:6px 12px;border-radius:999px;font-size:.88rem;cursor:pointer;color:var(--text);text-decoration:none;font-weight:600}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.75rem;font-weight:700;background:var(--green-soft);color:var(--green)}
+.badge.warn{background:var(--yellow-soft);color:var(--yellow-text)}
+.badge.red{background:var(--red-soft);color:var(--red)}
+.badge.neutral{background:var(--surface-2);color:var(--muted)}
+
+/* hero */
+.hero{padding:48px 0 24px;background:radial-gradient(1200px 400px at 50% -10%,var(--accent-soft),transparent 70%)}
+.hero-inner{max-width:860px;text-align:center}
+.eyebrow{display:inline-block;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:6px 12px;border-radius:999px;font-size:.85rem;margin-bottom:16px}
+.lead{font-size:1.1rem;color:var(--muted);max-width:640px;margin:0 auto 24px}
+.gen-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:16px;box-shadow:var(--shadow);text-align:left}
+.mode-switch{display:inline-flex;background:var(--surface-2);border-radius:12px;padding:4px;margin-bottom:12px;gap:4px;flex-wrap:wrap}
+.mode-switch button{border:0;background:transparent;padding:8px 14px;border-radius:9px;font-weight:700;cursor:pointer;color:var(--muted)}
+.mode-switch button[aria-selected="true"]{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+textarea,input[type=text],input[type=email],input[type=search],input[type=number],select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;outline:none}
+textarea:focus,input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+textarea{resize:vertical;min-height:90px;font-size:1.05rem}
+.counter{text-align:right;font-size:.8rem;color:var(--muted);margin-top:4px}
+.field-label{display:block;font-weight:700;margin-bottom:6px;font-size:.92rem}
+.tag-box{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:8px;min-height:56px;cursor:text}
+.tag-box:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.tag-box input{border:0!important;box-shadow:none!important;background:transparent;padding:6px;flex:1;min-width:160px;width:auto}
+.tag{display:inline-flex;align-items:center;gap:4px;background:var(--accent-soft);color:var(--accent);padding:4px 6px 4px 10px;border-radius:999px;font-weight:700;font-size:.9rem}
+.tag button{border:0;background:transparent;color:inherit;cursor:pointer;font-size:1rem;line-height:1;padding:0 4px}
+.suggest-wrap{position:relative}
+.suggest{position:absolute;left:0;right:0;top:4px;z-index:20;list-style:none;margin:0;padding:6px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);max-height:240px;overflow:auto}
+.suggest li{padding:8px 10px;border-radius:8px;cursor:pointer}
+.suggest li[aria-selected="true"],.suggest li:hover{background:var(--accent-soft)}
+details.params{margin-top:12px;border-top:1px dashed var(--border);padding-top:12px}
+details.params summary{cursor:pointer;font-weight:700;list-style:none;display:flex;align-items:center;gap:6px}
+details.params summary::before{content:"⚙️"}
+details.params summary::-webkit-details-marker{display:none}
+.params-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:12px 0}
+.params-grid label{font-size:.82rem;font-weight:700;color:var(--muted);display:grid;gap:4px}
+.params-grid select,.params-grid input{padding:9px 10px}
+fieldset{border:0;padding:0;margin:10px 0}
+legend{font-size:.82rem;font-weight:700;color:var(--muted);margin-bottom:6px}
+.check-row{display:flex;flex-wrap:wrap;gap:6px}
+.check-pill{position:relative}
+.check-pill input{position:absolute;opacity:0;pointer-events:none}
+.check-pill span{display:inline-block;padding:6px 12px;border:1px solid var(--border);border-radius:999px;font-size:.86rem;font-weight:600;cursor:pointer;background:var(--surface)}
+.check-pill input:checked+span{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.check-pill input:focus-visible+span{outline:3px solid var(--accent);outline-offset:2px}
+.gen-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px}
+.limit-note{font-size:.88rem;color:var(--muted)}
+.examples{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+.alert{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--red-soft);color:var(--red);font-weight:600}
+.alert.info{background:var(--yellow-soft);color:var(--yellow-text)}
+.alert .btn{margin-top:8px}
+
+/* steps */
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.how div{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.how b{display:block;font-size:1.6rem;margin-bottom:6px}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.card{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.card-link{color:inherit;text-decoration:none;display:block}
+.card-link:hover{color:inherit}
+.card-body{padding:12px 14px 14px}
+.card-body h3{margin:0 0 6px;font-size:1rem}
+.card-meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.82rem;margin-bottom:8px}
+.badges{display:flex;gap:4px;flex-wrap:wrap}
+.fav-btn{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#c92a2a;cursor:pointer;font-size:1.1rem;box-shadow:0 2px 8px rgba(0,0,0,.15);display:grid;place-items:center}
+.fav-btn[aria-pressed="false"]{color:#9a8b7e}
+.dish-img{position:relative;aspect-ratio:16/10;display:grid;place-items:center;overflow:hidden;background:linear-gradient(135deg,hsl(var(--h1) 85% 82%),hsl(var(--h2) 80% 68%))}
+.dish-img .plate{width:58%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 45%,#fff 0 55%,#f1ebe4 56% 64%,#fff 65%);box-shadow:0 14px 30px rgba(0,0,0,.18);display:grid;place-items:center}
+.dish-img .main{font-size:clamp(4.5rem,10vw,6rem);filter:drop-shadow(0 6px 8px rgba(0,0,0,.15))}
+.dish-img.sm .main{font-size:3rem}
+.dish-img .orb{position:absolute;font-size:1.9rem;filter:drop-shadow(0 4px 6px rgba(0,0,0,.18))}
+.dish-img.sm .orb{font-size:1.3rem}
+.o1{top:10%;left:9%;transform:rotate(-14deg)}.o2{top:12%;right:10%;transform:rotate(12deg)}.o3{bottom:10%;left:12%;transform:rotate(8deg)}.o4{bottom:12%;right:12%;transform:rotate(-10deg)}
+.dish-img.pending{background:linear-gradient(100deg,var(--surface-2) 30%,var(--border) 50%,var(--surface-2) 70%);background-size:300% 100%;animation:shimmer 1.4s infinite linear;color:var(--muted);font-weight:700;font-size:.9rem}
+@keyframes shimmer{from{background-position:100% 0}to{background-position:0 0}}
+.dish-img.fade-in{animation:fade .6s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.empty{padding:40px 20px;text-align:center;color:var(--muted);border:2px dashed var(--border);border-radius:var(--radius)}
+.empty b{display:block;font-size:2.4rem;margin-bottom:6px}
+
+/* catalog */
+.catalog{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start}
+.filters{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:sticky;top:80px;display:grid;gap:12px}
+.filters label{display:grid;gap:4px;font-size:.82rem;font-weight:700;color:var(--muted)}
+.filters select,.filters input{padding:9px 10px}
+.filters summary{font-weight:800;cursor:pointer}
+.searchbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.searchbar input{flex:1;min-width:200px}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;color:var(--muted);font-size:.9rem}
+.seo-text{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:16px;color:var(--muted)}
+.pager{display:flex;gap:6px;justify-content:center;margin-top:24px;flex-wrap:wrap}
+.cta-gen{margin-top:20px;padding:18px;border-radius:var(--radius);background:var(--accent-soft);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:860px){.catalog{grid-template-columns:1fr}.filters{position:static}}
+
+/* recipe */
+.crumbs{font-size:.85rem;color:var(--muted);margin:20px 0 12px;display:flex;gap:6px;flex-wrap:wrap}
+.crumbs a{color:var(--muted)}
+.ai-banner{display:flex;gap:10px;align-items:flex-start;background:var(--yellow-soft);color:var(--yellow-text);padding:12px 14px;border-radius:14px;font-size:.9rem;margin:16px 0}
+.recipe-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center}
+.recipe-hero .dish-img{border-radius:22px;box-shadow:var(--shadow)}
+.recipe-hero .desc{font-size:1.08rem;color:var(--muted)}
+.meta{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin:16px 0}
+.meta div{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:10px 12px}
+.meta small{display:block;color:var(--muted);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.meta b{font-size:1rem}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.refine-box{margin-top:12px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px}
+.refine-box form{display:flex;gap:8px;flex-wrap:wrap}
+.refine-box input{flex:1;min-width:200px}
+.refine-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.recipe-body{display:grid;grid-template-columns:380px 1fr;gap:28px;margin-top:32px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.panel+.panel{margin-top:16px}
+.servings{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.servings output{min-width:32px;text-align:center;font-weight:800;font-size:1.1rem}
+.ing-group{font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:800;margin:14px 0 4px}
+.check-list{list-style:none;margin:0;padding:0}
+.check-list li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)}
+.check-list li:last-child{border-bottom:0}
+.check-list input{width:20px;height:20px;accent-color:var(--accent);margin-top:2px;flex:none;cursor:pointer}
+.check-list label{flex:1;cursor:pointer}
+.check-list input:checked+label{color:var(--muted);text-decoration:line-through}
+.amt{font-weight:800;white-space:nowrap}
+.steps li{padding:14px 0;align-items:flex-start}
+.step-num{flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:800;display:grid;place-items:center;font-size:.9rem}
+.step-text{flex:1}
+.timer-btn{margin-top:8px}
+.timer-btn.running{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.nutri{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.nutri div{background:var(--surface-2);border-radius:12px;padding:10px 4px}
+.nutri b{display:block;font-size:1.15rem}
+.nutri small{color:var(--muted);font-size:.72rem;font-weight:700}
+.note{font-size:.8rem;color:var(--muted);margin-top:8px}
+.tips li{margin-bottom:8px}
+.feedback{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.reason-form{margin-top:12px;display:grid;gap:8px}
+.stream-hide{opacity:0;transform:translateY(6px)}
+.stream-show{opacity:1;transform:none;transition:opacity .35s,transform .35s}
+.stream-status{display:flex;align-items:center;gap:10px;background:var(--accent-soft);color:var(--accent);padding:10px 14px;border-radius:12px;font-weight:700;margin-top:12px}
+.caret::after{content:"▍";animation:blink 1s infinite;color:var(--accent)}
+@keyframes blink{50%{opacity:0}}
+.hidden-note{background:var(--red-soft);color:var(--red);padding:12px 14px;border-radius:12px;font-weight:600;margin-top:16px}
+@media (max-width:900px){.recipe-hero,.recipe-body{grid-template-columns:1fr}}
+
+/* overlay */
+.overlay{position:fixed;inset:0;z-index:60;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(6px);display:grid;place-items:center;padding:16px}
+.overlay[hidden]{display:none}
+.overlay-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:28px;width:min(440px,100%);box-shadow:var(--shadow);text-align:center}
+.pan{font-size:3.4rem;display:inline-block;animation:toss 1.1s ease-in-out infinite}
+@keyframes toss{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(8deg) translateY(-8px)}}
+.skel{height:12px;border-radius:6px;margin:10px auto;background:linear-gradient(100deg,var(--surface-2) 30%,var(--border) 50%,var(--surface-2) 70%);background-size:300% 100%;animation:shimmer 1.2s infinite linear}
+
+/* tables / admin */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:20px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px 16px}
+.stat small{color:var(--muted);font-weight:700;font-size:.78rem}
+.stat b{display:block;font-size:1.6rem;font-weight:800}
+.bars{display:flex;align-items:flex-end;gap:10px;height:180px;padding:10px 0 0}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;font-size:.75rem;color:var(--muted)}
+.bar i{display:block;width:100%;max-width:46px;background:var(--accent);border-radius:8px 8px 3px 3px;min-height:3px}
+.bar b{color:var(--text);font-size:.8rem}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:16px;background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-size:.78rem;text-transform:uppercase;color:var(--muted);letter-spacing:.04em;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td .btn{margin:2px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.two-col{grid-template-columns:1fr}}
+pre.code{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;overflow:auto;font-size:.82rem;white-space:pre}
+
+/* footer, toast, cookie */
+footer{border-top:1px solid var(--border);margin-top:56px;padding:28px 0;color:var(--muted);font-size:.88rem}
+footer .wrap{display:flex;gap:16px;justify-content:space-between;flex-wrap:wrap}
+footer nav{display:flex;gap:14px;flex-wrap:wrap}
+footer a{color:var(--muted)}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:80;display:grid;gap:8px;width:min(420px,calc(100% - 32px))}
+.toast{background:var(--text);color:var(--bg);padding:12px 16px;border-radius:12px;font-weight:600;box-shadow:var(--shadow);animation:fade .25s}
+.cookie{position:fixed;left:16px;right:16px;bottom:16px;z-index:70;max-width:620px;margin:0 auto;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:var(--shadow);display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:.9rem}
+.cookie p{margin:0;flex:1;min-width:220px}
+
+@media print{
+  .site-header,footer,.actions,.refine-box,.no-print,#toast,.cookie,.fav-btn,.timer-btn,.stream-status{display:none!important}
+  body{background:#fff;color:#000}
+  .recipe-hero,.recipe-body{grid-template-columns:1fr}
+  .panel{border:0;padding:0}
+  .dish-img{max-height:220px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Перейти к содержимому</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="#/"><span class="mark" aria-hidden="true">🍳</span>Шеф AI</a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#/" data-nav="home">Главная</a>
+      <a href="#/recipes" data-nav="recipes">Каталог</a>
+      <a href="#/favorites" data-nav="favorites">Избранное <span id="favCount"></span></a>
+      <a href="#/account" data-nav="account">Кабинет</a>
+      <a href="#/admin" data-nav="admin">Админ</a>
+    </nav>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Сменить тему">🌓</button>
+  </div>
+</header>
+<main id="main" tabindex="-1"></main>
+<footer>
+  <div class="wrap">
+    <div>
+      <b>Шеф AI</b> · рецепты созданы искусственным интеллектом.<br>
+      КБЖУ рассчитывается приблизительно, информацию об аллергенах проверяйте самостоятельно.
+    </div>
+    <nav aria-label="Служебные ссылки">
+      <a href="#/privacy">Политика конфиденциальности</a>
+      <a href="#/sitemap.xml">sitemap.xml</a>
+      <a href="#/admin">Админ-панель</a>
+    </nav>
+  </div>
+</footer>
+<div class="overlay" id="genOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="genHint">
+  <div class="overlay-card">
+    <div class="pan" aria-hidden="true">🍳</div>
+    <p id="genHint" style="font-weight:800;font-size:1.1rem;margin:12px 0 4px">Подбираю ингредиенты…</p>
+    <p class="muted" style="font-size:.88rem">Шеф AI составляет рецепт под ваш запрос</p>
+    <div class="skel" style="width:80%"></div><div class="skel" style="width:60%"></div><div class="skel" style="width:70%"></div>
+  </div>
+</div>
+<div id="toast" aria-live="polite"></div>
+<div id="cookieSlot"></div>
+
+<script>
+'use strict';
+/* =========================================================
+   Утилиты
+   ========================================================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const cap = s => s ? s[0].toUpperCase() + s.slice(1) : s;
+const today = () => new Date().toISOString().slice(0, 10);
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('chefai.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('chefai.' + k, JSON.stringify(v)); } catch (e) {} },
+};
+function hash(s) { let h = 2166136261; for (const ch of String(s)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
+function rng(seed) { let a = seed >>> 0; return () => { a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const listJoin = a => a.length < 2 ? (a[0] || '') : a.slice(0, -1).join(', ') + ' и ' + a[a.length - 1];
+const norm = t => String(t || '').toLowerCase().replace(/ё/g, 'е');
+const W = t => (/^(с|з|ш|щ|ж)[^аеиоуыэюя]/i.test(t) || /^мн/i.test(t) ? 'со ' : 'с ') + t;
+const END = { m: 'ый', f: 'ая', n: 'ое', pl: 'ые' };
+
+/* Упрощённый стеммер для русской морфологии: «курица» = «курицей» = «курицы» */
+const ENDINGS = ['иями','ями','ами','его','ого','ему','ому','ыми','ими','ией','ой','ей','ий','ый','ая','яя','ое','ее','ую','юю','ом','ем','ах','ях','ам','ям','ов','ев','ью','ы','и','а','я','о','е','у','ю','ь','й'];
+function stem(w) { w = norm(w); for (const e of ENDINGS) if (w.endsWith(e) && w.length - e.length >= 3) return w.slice(0, -e.length); return w; }
+const words = t => norm(t).match(/[a-zа-я0-9]+/g) || [];
+const stemMatch = (ws, s) => s[0] === '=' ? ws === s.slice(1) : ws.startsWith(s);
+
+/* =========================================================
+   Справочник продуктов (КБЖУ на 100 г)
+   ========================================================= */
+const DIETS = { vegan: 'Веган', vegetarian: 'Вегетарианское', gluten_free: 'Без глютена', lactose_free: 'Без лактозы', keto: 'Кето', pp: 'ПП' };
+const DIET_FORBID = { vegan: ['meat','fish','seafood','eggs','milk','honey'], vegetarian: ['meat','fish','seafood'], gluten_free: ['gluten'], lactose_free: ['milk'], keto: ['highcarb','sugar'], pp: ['sugar','pork'] };
+const ALLERGENS = { gluten: 'Глютен', milk: 'Молоко', eggs: 'Яйца', nuts: 'Орехи', peanut: 'Арахис', soy: 'Соя', fish: 'Рыба', seafood: 'Морепродукты', sesame: 'Кунжут', celery: 'Сельдерей', mustard: 'Горчица' };
+const TYPES = { breakfast: 'Завтрак', soup: 'Суп', main: 'Основное блюдо', salad: 'Салат', dessert: 'Десерт', snack: 'Закуска', drink: 'Напиток', baking: 'Выпечка' };
+const TYPE_NOUN = { breakfast: ['завтрак','m'], soup: ['суп','m'], main: ['блюдо','n'], salad: ['салат','m'], dessert: ['десерт','m'], snack: ['закуска','f'], drink: ['напиток','m'], baking: ['выпечка','f'] };
+const CUISINES = { italian: ['Итальянская','итальянской'], asian: ['Азиатская','азиатской'], russian: ['Русская','русской'], georgian: ['Грузинская','грузинской'], mediterranean: ['Средиземноморская','средиземноморской'], mexican: ['Мексиканская','мексиканской'], european: ['Европейская','европейской'], french: ['Французская','французской'] };
+const DIFF = { easy: 'Легко', medium: 'Средне', hard: 'Сложно' };
+const SCHEMA_DIET = { vegan: 'VeganDiet', vegetarian: 'VegetarianDiet', gluten_free: 'GlutenFreeDiet', lactose_free: 'LowLactoseDiet', pp: 'LowCalorieDiet' };
+
+const ING = {};
+function def(key, nm, o = {}) {
+  ING[key] = Object.assign({ key, nm, tn: nm, t: nm.toLowerCase(), acc: nm.toLowerCase(), gen: nm.toLowerCase(), g: 'm', s: [], k: [0,0,0,0], tags: [], u: 'г', gu: 1, ps: 100, e: '' }, o);
+}
+// белки
+def('chicken','Куриное филе',{tn:'Курица',t:'курицей',acc:'курицу',g:'f',s:['куриц','курин','цыпл'],k:[113,23.6,1.9,.4],tags:['meat'],ps:150,e:'🍗',ck:[420,'6–7 минут до полной готовности (74 °C внутри)'],cut:'Нарежьте курицу кусочками по 2–3 см',safe:'до 74 °C в самой толстой части',soupMode:'broth',soupT:25});
+def('turkey','Филе индейки',{tn:'Индейка',t:'индейкой',acc:'индейку',g:'f',s:['индейк','индюш'],k:[114,22,1.6,0],tags:['meat'],ps:150,e:'🦃',ck:[420,'6–7 минут до готовности (74 °C внутри)'],cut:'Нарежьте индейку кусочками по 2–3 см',safe:'до 74 °C внутри',soupMode:'broth',soupT:25});
+def('beef','Говяжья вырезка',{tn:'Говядина',t:'говядиной',acc:'говядину',gen:'говядины',g:'f',s:['говяд','говяж','телят'],k:[187,18.9,12.4,0],tags:['meat'],ps:150,e:'🥩',ck:[300,'4–5 минут до румяной корочки'],cut:'Нарежьте говядину тонкими полосками поперёк волокон',safe:'до желаемой прожарки (не ниже 63 °C)',soupMode:'broth',soupT:50});
+def('pork','Свиная вырезка',{tn:'Свинина',t:'свининой',acc:'свинину',g:'f',s:['свин'],k:[242,16,21,0],tags:['meat','pork'],ps:150,e:'🥓',ck:[480,'7–8 минут до готовности (63 °C внутри)'],cut:'Нарежьте свинину тонкими полосками',safe:'до 63 °C внутри'});
+def('salmon','Филе лосося',{tn:'Лосось',t:'лососем',acc:'лосося',s:['лосос','семг','форел','горбуш'],k:[208,20,13,0],tags:['fish'],ps:150,e:'🐟',ck:[240,'по 2 минуты с каждой стороны'],cut:'Нарежьте лосося кубиками по 3 см',safe:'пока рыба не начнёт легко расслаиваться'});
+def('cod','Филе трески',{tn:'Треска',t:'треской',acc:'треску',gen:'трески',g:'f',s:['треск','минта','хек','рыб'],k:[82,18,.7,0],tags:['fish'],ps:170,e:'🐟',ck:[300,'4–5 минут, аккуратно переворачивая'],cut:'Нарежьте треску крупными кусками',safe:'пока рыба не станет непрозрачной',soupMode:'late',soupT:10});
+def('shrimp','Креветки очищенные',{tn:'Креветки',t:'креветками',acc:'креветки',g:'pl',s:['кревет','морепрод'],k:[95,19,1,0],tags:['seafood'],ps:120,e:'🦐',ck:[180,'2–3 минуты до розового цвета'],cut:'Разморозьте и обсушите креветки'});
+def('tofu','Тофу твёрдый',{tn:'Тофу',t:'тофу',acc:'тофу',s:['тофу'],k:[76,8,4.8,1.9],tags:['soy'],ps:150,e:'🥡',ck:[360,'5–6 минут до золотистой корочки'],cut:'Обсушите тофу бумажным полотенцем и нарежьте кубиками'});
+def('chickpeas','Нут консервированный',{tn:'Нут',t:'нутом',acc:'нут',gen:'нута',s:['=нут','хумус'],k:[164,8.9,2.6,27.4],tags:['highcarb'],ps:120,e:'🫘',ck:[240,'4 минуты до лёгкой корочки'],cut:'Промойте и обсушите нут',soupMode:'with',soupT:20});
+def('lentils','Чечевица красная',{tn:'Чечевица',t:'чечевицей',acc:'чечевицу',gen:'чечевицы',g:'f',s:['чечевиц'],k:[352,24,1.5,60],tags:['highcarb'],ps:60,e:'🫘',ck:[120,'2 минуты, аккуратно перемешивая'],pre:[1080,'Промойте чечевицу и отварите 15–18 минут до мягкости, откиньте на сито.'],cut:'Подготовьте отварную чечевицу',soupMode:'with',soupT:20});
+def('beans','Фасоль консервированная',{tn:'Фасоль',t:'фасолью',acc:'фасоль',gen:'фасоли',g:'f',s:['фасол'],k:[100,7,.5,17],tags:['highcarb'],ps:120,e:'🫘',ck:[180,'2–3 минуты'],cut:'Промойте фасоль и дайте стечь',soupMode:'with',soupT:15});
+def('eggs','Яйца',{t:'яйцом',acc:'яйца',g:'pl',s:['яйц','яиц','яичн'],k:[157,12.7,11.5,.7],tags:['eggs'],u:'шт',gu:55,ps:2,e:'🥚'});
+def('mushrooms','Шампиньоны',{tn:'Грибы',t:'грибами',acc:'грибы',gen:'грибов',g:'pl',s:['гриб','шампин','вешенк'],k:[27,4.3,1,.1],ps:150,e:'🍄',ck:[420,'6–7 минут, пока не испарится жидкость'],cut:'Нарежьте грибы пластинами',soupMode:'with',soupT:20});
+// овощи
+def('zucchini','Кабачок',{t:'кабачком',acc:'кабачок',gen:'кабачков',s:['кабач','цукин'],k:[24,.6,.3,4.6],ps:120,e:'🥒'});
+def('broccoli','Брокколи',{t:'брокколи',acc:'брокколи',gen:'брокколи',g:'f',s:['брокколи'],k:[34,2.8,.4,7],ps:120,e:'🥦'});
+def('carrot','Морковь',{t:'морковью',acc:'морковь',gen:'моркови',g:'f',s:['морков'],k:[35,1.3,.1,6.9],ps:60,e:'🥕'});
+def('onion','Лук репчатый',{tn:'Лук',t:'луком',acc:'лук',s:['=лук'],k:[41,1.4,0,8.2],ps:40,e:'🧅'});
+def('garlic','Чеснок',{t:'чесноком',acc:'чеснок',s:['чеснок','чесноч'],k:[149,6.5,.5,30],u:'зубч.',gu:5,ps:1,e:'🧄'});
+def('tomato','Помидоры',{tn:'Томаты',t:'томатами',acc:'помидоры',gen:'томатов',g:'pl',s:['помидор','томат','черри'],k:[20,.6,.2,4.2],ps:100,e:'🍅'});
+def('pepper','Перец болгарский',{tn:'Перец',t:'болгарским перцем',acc:'болгарский перец',s:['болгарск','=перец','=перц'],k:[26,1.3,0,5.3],ps:80,e:'🫑'});
+def('spinach','Шпинат',{t:'шпинатом',acc:'шпинат',gen:'шпината',s:['шпинат'],k:[23,2.9,.3,2],ps:40,e:'🥬'});
+def('eggplant','Баклажан',{t:'баклажаном',acc:'баклажан',gen:'баклажанов',s:['баклажан'],k:[24,1.2,.1,4.5],ps:120,e:'🍆'});
+def('pumpkin','Тыква',{t:'тыквой',acc:'тыкву',gen:'тыквы',g:'f',s:['тыкв'],k:[26,1,.1,6.5],ps:150,e:'🎃'});
+def('cabbage','Капуста белокочанная',{tn:'Капуста',t:'капустой',acc:'капусту',g:'f',s:['капуст'],k:[27,1.8,.1,4.7],ps:100,e:'🥬'});
+def('cucumber','Огурцы',{t:'огурцами',acc:'огурцы',g:'pl',s:['огур'],k:[15,.8,.1,2.8],ps:100,e:'🥒'});
+def('celery','Стебель сельдерея',{tn:'Сельдерей',t:'сельдереем',acc:'сельдерей',s:['сельдер'],k:[13,.9,.1,2.1],tags:['celery'],ps:40,e:'🥬'});
+def('avocado','Авокадо',{t:'авокадо',acc:'авокадо',g:'n',s:['авокад'],k:[160,2,14.7,8.5],ps:80,e:'🥑'});
+def('potato','Картофель',{t:'картофелем',acc:'картофель',s:['картоф','картош'],k:[77,2,.4,16.3],tags:['highcarb'],ps:150,e:'🥔'});
+// крупы и мука
+def('rice','Рис',{t:'рисом',acc:'рис',s:['=рис'],k:[344,6.7,.7,78.9],tags:['highcarb'],ps:70,e:'🍚',cookTime:1080,cookText:'Промойте рис и отварите в подсоленной воде 18 минут.'});
+def('buckwheat','Гречка',{t:'гречкой',acc:'гречку',g:'f',s:['гречк','гречн','гречих'],k:[313,12.6,3.3,62],tags:['highcarb'],ps:70,e:'🌾',cookTime:1200,cookText:'Залейте гречку водой (1 : 2), посолите и варите под крышкой 20 минут.'});
+def('quinoa','Киноа',{t:'киноа',acc:'киноа',g:'f',s:['киноа'],k:[368,14,6,64],tags:['highcarb'],ps:60,e:'🌾',cookTime:900,cookText:'Промойте киноа и варите в двойном объёме воды 15 минут.'});
+def('ricenoodle','Рисовая лапша',{t:'рисовой лапшой',acc:'лапшу',g:'f',s:['лапш'],k:[364,6,.6,80],tags:['highcarb'],ps:70,e:'🍜',cookTime:300,cookText:'Залейте рисовую лапшу кипятком на 5 минут, затем откиньте на дуршлаг.'});
+def('pasta','Спагетти из твёрдых сортов',{tn:'Паста',t:'пастой',acc:'пасту',g:'f',s:['паст','спагет','макарон','пенне','феттучин','лингвин'],k:[344,10.4,1.1,71.5],tags:['gluten','highcarb'],ps:90,e:'🍝',cookTime:600,cookText:'Отварите пасту в большом количестве подсоленной воды до состояния аль денте (8–10 минут). Сохраните стакан воды от варки.'});
+def('gfpasta','Паста без глютена (рисовая или кукурузная)',{tn:'Паста',t:'пастой',acc:'пасту',g:'f',k:[350,7,1.5,77],tags:['highcarb'],ps:90,e:'🍝',cookTime:600,cookText:'Отварите безглютеновую пасту в подсоленной воде по инструкции (обычно 8–10 минут). Сохраните стакан воды от варки.'});
+def('oats','Овсяные хлопья',{tn:'Овсянка',t:'овсянкой',acc:'хлопья',g:'pl',s:['овсян','геркулес'],k:[352,12.3,6.2,61.8],tags:['gluten','highcarb'],ps:50,e:'🥣'});
+def('gfoats','Овсяные хлопья без глютена',{acc:'хлопья',g:'pl',k:[352,12.3,6.2,61.8],tags:['highcarb'],ps:50,e:'🥣'});
+def('flour','Мука пшеничная',{s:['=мук'],k:[334,10,1.1,70],tags:['gluten','highcarb'],ps:30,e:'🌾'});
+def('riceflour','Мука рисовая',{k:[366,6,1.4,80],tags:['highcarb'],ps:30,e:'🌾'});
+def('bread','Багет или чиабатта',{tn:'Хлеб',t:'хлебом',acc:'хлеб',s:['хлеб','багет','чиабат','тост'],k:[265,9,3.2,49],tags:['gluten','highcarb'],ps:60,e:'🥖'});
+// молочное
+def('cream','Сливки 10–20%',{tn:'Сливки',t:'сливками',acc:'сливки',g:'pl',s:['сливк'],k:[160,2.8,15,4],tags:['milk'],u:'мл',ps:60,e:'🥛'});
+def('milk','Молоко',{t:'молоком',acc:'молоко',g:'n',s:['молок','молоч'],k:[52,2.8,2.5,4.7],tags:['milk'],u:'мл',ps:200,e:'🥛'});
+def('plantmilk','Растительное молоко (рисовое или кокосовое)',{acc:'растительное молоко',g:'n',k:[45,.5,1.5,7],u:'мл',ps:200,e:'🥛'});
+def('coconutmilk','Кокосовое молоко',{t:'кокосовым молоком',acc:'кокосовое молоко',g:'n',s:['кокос'],k:[197,2,21,3],u:'мл',ps:60,e:'🥥'});
+def('cheese','Сыр твёрдый',{tn:'Сыр',t:'сыром',acc:'сыр',s:['=сыр','фет','брынз','сулугун','чеддер','адыгейск'],k:[364,23,30,0],tags:['milk'],ps:30,e:'🧀'});
+def('mozzarella','Моцарелла',{t:'моцареллой',acc:'моцареллу',g:'f',s:['моцарел'],k:[280,22,22,2],tags:['milk'],ps:60,e:'🧀'});
+def('parmesan','Пармезан',{t:'пармезаном',s:['пармез'],k:[392,35,25,4],tags:['milk'],ps:15,e:'🧀'});
+def('tvorog','Творог 5%',{tn:'Творог',t:'творогом',acc:'творог',s:['творог','творож'],k:[121,17.2,5,1.8],tags:['milk'],ps:150,e:'🥣'});
+def('yogurt','Греческий йогурт',{tn:'Йогурт',t:'йогуртом',acc:'йогурт',s:['йогурт'],k:[66,5,3.2,3.5],tags:['milk'],ps:100,e:'🥛'});
+def('butter','Сливочное масло',{s:['сливочн'],k:[748,.5,82.5,.8],tags:['milk'],ps:10,e:'🧈'});
+// масла, соусы, орехи
+def('oil','Оливковое масло',{s:['оливк'],k:[898,0,99.8,0],u:'ст. л.',gu:13,ps:1,e:'🫒'});
+def('soysauce','Соевый соус',{acc:'соевый соус',s:['соев'],k:[53,6,0,6.6],tags:['soy','gluten'],u:'ст. л.',gu:15,ps:1});
+def('tamari','Соус тамари (без глютена)',{acc:'соус тамари',k:[60,10,0,5.6],tags:['soy'],u:'ст. л.',gu:15,ps:1});
+def('sesame','Кунжут',{s:['кунжут'],k:[565,19,48.7,12],tags:['sesame'],u:'ч. л.',gu:4,ps:1});
+def('tahini','Паста тахини',{s:['тахин'],k:[595,17,54,21],tags:['sesame'],u:'ст. л.',gu:15,ps:1});
+def('walnuts','Грецкие орехи',{tn:'Орехи',t:'орехами',acc:'орехи',g:'pl',s:['орех','миндал','фундук','кешью'],k:[654,15,65,7],tags:['nuts'],ps:20,e:'🌰'});
+def('peanutbutter','Арахисовая паста',{s:['арахис'],k:[588,25,50,20],tags:['peanut'],u:'ст. л.',gu:16,ps:1,e:'🥜'});
+def('honey','Мёд',{t:'мёдом',s:['=мед'],k:[304,.3,0,82],tags:['honey','highcarb'],u:'ч. л.',gu:8,ps:1,e:'🍯'});
+def('sugar','Сахар',{s:['сахар'],k:[398,0,0,99.7],tags:['sugar','highcarb'],ps:10});
+// фрукты и прочее
+def('banana','Банан',{t:'бананом',acc:'банан',s:['банан'],k:[89,1.1,.3,22.8],tags:['highcarb'],u:'шт',gu:120,ps:1,e:'🍌',top:'нарезанный банан'});
+def('apple','Яблоки',{t:'яблоком',acc:'яблоки',g:'pl',s:['яблок'],k:[47,.4,.4,9.8],u:'шт',gu:180,ps:1,e:'🍎',top:'тёртое яблоко'});
+def('berries','Ягоды (свежие или замороженные)',{tn:'Ягоды',t:'ягодами',acc:'ягоды',g:'pl',s:['ягод','клубник','малин','черник','голубик','смородин'],k:[45,1,.3,9],ps:70,e:'🫐',top:'ягоды'});
+def('lemon','Лимон',{t:'лимоном',s:['лимон'],k:[34,.9,.1,3],u:'шт',gu:60,ps:.25,e:'🍋'});
+def('cocoa','Какао-порошок',{s:['какао','шоколад'],k:[289,24,15,10],u:'ст. л.',gu:8,ps:1,e:'🍫'});
+def('ginger','Имбирь свежий',{s:['имбир'],k:[80,1.8,.8,18],ps:5,e:'🫚'});
+def('chili','Перец чили',{s:['чили','халапен'],k:[40,1.9,.4,8.8],u:'шт',gu:15,ps:.25,e:'🌶️'});
+def('greens','Свежая зелень (укроп, петрушка или базилик)',{tn:'Зелень',s:['зелен','укроп','петрушк','кинз','базилик'],k:[40,3,.5,6],ps:5,e:'🌿'});
+def('mustard','Горчица',{s:['горчиц'],k:[162,9.9,12.7,5.3],tags:['mustard'],u:'ч. л.',gu:6,ps:.5});
+def('broth','Вода или овощной бульон',{k:[5,.5,0,.5],u:'мл',ps:350});
+def('bakingpowder','Разрыхлитель',{u:'ч. л.',gu:4,ps:.25});
+// специи «по вкусу»
+def('salt','Соль и чёрный перец',{u:null});
+def('herbs','Прованские или итальянские травы',{u:null});
+def('khmeli','Хмели-сунели',{u:null});
+def('paprika','Паприка и молотый кумин',{u:null});
+def('cinnamon','Корица',{u:null});
+def('turmeric','Куркума и паприка',{u:null});
+Object.values(ING).forEach(i => { i.s = i.s.map(x => x[0] === '=' ? '=' + stem(x.slice(1)) : stem(x)); });
+
+// безопасные замены для ограничений: «паста без глютена», «каша на растительном молоке»
+const ALT = { pasta: 'gfpasta', oats: 'gfoats', flour: 'riceflour', soysauce: 'tamari', milk: 'plantmilk', cream: 'coconutmilk' };
+const SUBS = { chicken:'филе индейки или тофу', turkey:'куриное филе', beef:'филе индейки', pork:'филе индейки', salmon:'форель или треска', cod:'минтай или хек', shrimp:'кальмары или курица', tofu:'нут', chickpeas:'фасоль', rice:'киноа или цветная капуста (для кето)', buckwheat:'булгур или рис', pasta:'безглютеновая паста', cream:'кокосовое молоко', milk:'растительное молоко', butter:'оливковое масло', soysauce:'соус тамари — без глютена', flour:'рисовая мука', honey:'кленовый сироп', eggs:'1 ст. л. молотого льна + 3 ст. л. воды на яйцо', tvorog:'мягкий тофу', yogurt:'кокосовый йогурт', cheese:'пищевые дрожжи (веган)', parmesan:'пищевые дрожжи', sugar:'эритрит или стевия', walnuts:'тыквенные семечки', peanutbutter:'паста из семечек подсолнечника', bread:'безглютеновый хлеб', oats:'хлопья киноа', potato:'батат', zucchini:'баклажан', broccoli:'цветная капуста', mozzarella:'адыгейский сыр', lentils:'зелёная чечевица или маш', pumpkin:'батат или морковь' };
+
+/* =========================================================
+   Разбор запроса пользователя
+   ========================================================= */
+const DISH_RX = [
+  ['drink', /смузи|коктейл|напит|лимонад|ласси/],
+  ['soup', /суп|борщ|бульон|(^|[^а-я])щи([^а-я]|$)|солянк|похлеб|рамен/],
+  ['salad', /салат|боул/],
+  ['dessert', /десерт|сладк|мусс|морожен|пудинг|печен\w* яблок|творожн\w* десерт/],
+  ['baking', /печень|кекс|выпеч|маффин|пирог|брауни|банановый хлеб|булоч/],
+  ['breakfast', /завтрак|омлет|каш[аиеуо]|яичниц|сырник|гранол|фритат|скрэмбл/],
+  ['snack', /хумус|закуск|перекус|брускет|гуакам|снек|намазк/],
+];
+const HINT_RX = [['pasta', /паст[аыуое]|спагет|макарон|пенне|феттучин|лингвин|карбонар|болонь/], ['bake', /запеч|запек|духовк|печен/]];
+const CUISINE_RX = [['italian', /итальян/], ['asian', /азиат|китай|япон|тайск|корей|вьетнам|(^|[^а-я])вок([^а-я]|$)|терияки/], ['georgian', /грузин/], ['mexican', /мексик|тако|буррито/], ['russian', /русск|домашн/], ['mediterranean', /средиземн|греческ/], ['french', /француз/]];
+const DANGER_RX = [/мухомор|поганк|волч\w* ягод|белен|болиголов|дурман|наперстян|олеандр/, /(^|[^а-я])яд([^а-я]|$)|ядовит|отрав/, /бензин|керосин|отбелив|хлорк|антифриз|моющ|(^|[^а-я])мыл[оа]([^а-я]|$)|клей|ртут|цемент|краск/, /сыр(ая|ой|ую|ое|ые)\s+(кур|свинин|фарш|индейк|курин)/, /наркот|спайс|психоактив/, /лекарств|таблет/];
+const FOOD_RX = /рецеп|блюд|(^|[^а-я])ед[аыу]([^а-я]|$)|поесть|покушать|приготов|готов|ужин|обед|завтрак|перекус|закуск|суп|салат|десерт|торт|пирог|каш|выпеч|печен|кекс|напит|смузи|коктейл|соус|гарнир|мяс|рыб|овощ|фрукт|ягод|вкусн|голод|кухн|кето|веган|вегетар|глютен|калор|белк|праздн|пикник|шашлык|пицц|бургер|блин|оладь|сырник|омлет|паст|ризотто|плов|рагу|котлет|запеч|жарен|туш|варен|снек|ланч|бранч|меню|полдник|порци|диет|(^|[^а-я])пп([^а-я]|$)/;
+const MEAT_RX = /мяс|стейк|колбас|бекон|ветчин|сосис|фарш|шашлык/;
+
+// какое слово после «без» → что исключить
+function mapExclusion(ws, word) {
+  if (ws.startsWith('глютен')) return { diet: 'gluten_free' };
+  if (ws.startsWith('лактоз')) return { diet: 'lactose_free' };
+  if (ws.startsWith('мяс')) return { diet: 'vegetarian' };
+  if (ws.startsWith('сахар')) return { tag: 'sugar' };
+  if (ws.startsWith('духовк')) return { noOven: true };
+  if (ws.startsWith('орех')) return { allergen: 'nuts' };
+  if (ws.startsWith('яйц') || ws.startsWith('яиц')) return { allergen: 'eggs' };
+  if (ws.startsWith('молок') || ws.startsWith('молоч')) return { allergen: 'milk' };
+  if (ws.startsWith('рыб')) return { allergen: 'fish' };
+  if (ws.startsWith('морепрод')) return { allergen: 'seafood' };
+  if (ws.startsWith('кунжут')) return { allergen: 'sesame' };
+  if (ws.startsWith('арахис')) return { allergen: 'peanut' };
+  if (['соя','сои','сою'].includes(word) || ws.startsWith('сое')) return { allergen: 'soy' };
+  if (ws.startsWith('горчиц')) return { allergen: 'mustard' };
+  if (ws.startsWith('сельдер')) return { allergen: 'celery' };
+  for (const i of Object.values(ING)) if (i.s.some(s => stemMatch(ws, s))) return { key: i.key };
+  return null;
+}
+
+function findIngredients(text, skip = new Set()) {
+  const ws = words(text); const out = [];
+  ws.forEach((w, idx) => {
+    if (skip.has(idx)) return;
+    const st = stem(w);
+    for (const i of Object.values(ING)) if (i.s.length && i.s.some(s => stemMatch(st, s)) && !out.includes(i.key)) { out.push(i.key); break; }
+  });
+  const t = norm(text);
+  const drop = k => { const p = out.indexOf(k); if (p >= 0) out.splice(p, 1); };
+  if (out.includes('coconutmilk')) drop('milk');
+  if (/(арахисов|ореховн|кунжутн)\w*\s+паст|паст\w*\s+тахин/.test(t)) drop('pasta');
+  if (/сливочн\w*\s+соус/.test(t)) { drop('butter'); if (!out.includes('cream')) out.push('cream'); }
+  if (/перц\w*\s+чили|перец\s+чили|чили\s+перец/.test(t)) drop('pepper');
+  return out;
+}
+
+function parseRequest(prompt, tags = [], params = {}) {
+  const text = norm(prompt + ' ' + tags.join(' '));
+  const req = { prompt: String(prompt || '').trim(), tags: [...tags], params: { ...params }, text,
+    ingredients: [], extras: [], diets: [...(params.diets || [])], allergens: [...(params.allergens || [])], exclude: [], forbidTags: [],
+    dish: params.dish_type || null, hint: null, cuisine: params.cuisine || null, maxTime: +params.max_time || null,
+    servings: +params.servings || null, difficulty: params.difficulty || null, spicy: false, noOven: false, boost: false };
+  // «без …» и «аллергия на …»
+  const ws = words(prompt); const skip = new Set();
+  ws.forEach((w, i) => {
+    let j = -1;
+    if (w === 'без') j = i + 1;
+    if (w.startsWith('аллерг') && ws[i + 1] === 'на') j = i + 2;
+    if (j < 0 || !ws[j]) return;
+    if (['и', 'с', 'а'].includes(ws[j])) j++;
+    if (!ws[j]) return;
+    skip.add(j);
+    const m = mapExclusion(stem(ws[j]), ws[j]);
+    if (!m) return;
+    if (m.diet) req.diets.push(m.diet);
+    if (m.tag) { req.forbidTags.push(m.tag); req.exclude.push('sugar'); }
+    if (m.noOven) req.noOven = true;
+    if (m.allergen) req.allergens.push(m.allergen);
+    if (m.key) req.exclude.push(m.key);
+  });
+  // исключения из личного кабинета
+  (params.exclude || '').split(/[,;]/).map(s => s.trim()).filter(Boolean).forEach(x => { const k = findIngredients(x)[0]; if (k) req.exclude.push(k); });
+  // ингредиенты
+  req.ingredients = findIngredients(prompt, skip);
+  tags.forEach(tg => { const k = findIngredients(tg)[0]; if (k) { if (!req.ingredients.includes(k)) req.ingredients.push(k); } else req.extras.push(tg.trim()); });
+  req.ingredients = req.ingredients.filter(k => !req.exclude.includes(k));
+  // диеты по тексту
+  if (/веган/.test(text)) req.diets.push('vegan');
+  if (/вегетариан/.test(text)) req.diets.push('vegetarian');
+  if (/безглютен/.test(text)) req.diets.push('gluten_free');
+  if (/безлактоз/.test(text)) req.diets.push('lactose_free');
+  if (/кето/.test(text)) req.diets.push('keto');
+  if (/(^|[^а-я])пп([^а-я]|$)|правильн\w* питан|диетическ|низкокалор/.test(text)) req.diets.push('pp');
+  req.diets = [...new Set(req.diets)]; req.allergens = [...new Set(req.allergens)]; req.exclude = [...new Set(req.exclude)];
+  // тип блюда, подсказка шаблона, кухня
+  if (!req.dish) { const d = DISH_RX.find(([, rx]) => rx.test(text)); req.dish = d ? d[0] : null; }
+  if (!req.dish && req.ingredients.length && req.ingredients.every(k => ['banana','apple','berries','honey','cocoa','walnuts'].includes(k))) req.dish = 'dessert';
+  if (!req.dish) req.dish = 'main';
+  const h = HINT_RX.find(([, rx]) => rx.test(text)); req.hint = h ? h[0] : null;
+  if (!req.cuisine) { const c = CUISINE_RX.find(([, rx]) => rx.test(text)); req.cuisine = c ? c[0] : null; }
+  // время и порции
+  let m;
+  if (!req.maxTime) {
+    if ((m = text.match(/(\d{1,3})\s*мин/))) req.maxTime = +m[1];
+    else if (/полчаса/.test(text)) req.maxTime = 30;
+    else if (/быстр|на скорую руку/.test(text)) req.maxTime = 30;
+    else if (/(за|до|в течение)\s+час/.test(text)) req.maxTime = 60;
+  }
+  if (!req.servings) {
+    if ((m = text.match(/(\d{1,2})\s*(порц|человек|персон|чел|гост)/))) req.servings = +m[1];
+    else if (/на двоих/.test(text)) req.servings = 2;
+    else if (/на троих/.test(text)) req.servings = 3;
+    else if (/на четверых|для семьи|на семью/.test(text)) req.servings = 4;
+    else if (/на шестерых/.test(text)) req.servings = 6;
+  }
+  req.servings = Math.min(12, Math.max(1, req.servings || 2));
+  req.spicy = /остр|пикантн|чили/.test(text);
+  if (/без\s+духовк|на сковород/.test(text)) req.noOven = true;
+  req.boost = /больше белка|высокобелк|протеин/.test(text);
+  return req;
+}
+
+function forbiddenSet(req) {
+  const f = new Set(req.forbidTags);
+  req.diets.forEach(d => (DIET_FORBID[d] || []).forEach(t => f.add(t)));
+  req.allergens.forEach(a => f.add(a));
+  return f;
+}
+
+function checkRequest(req) {
+  const t = req.text;
+  if (!t.trim()) return 'Опишите, что хотите приготовить, или добавьте продукты из холодильника.';
+  if (DANGER_RX.some(rx => rx.test(t))) return 'Мы не можем помочь с этим запросом: он может быть опасен для здоровья. Шеф AI готовит только из безопасных съедобных продуктов.';
+  const food = FOOD_RX.test(t) || /запеканк|борщ|щи|солянк|гуляш|жаркое|харчо|лагман/.test(t) || DISH_RX.some(([, rx]) => rx.test(t)) || req.ingredients.length || req.tags.length || req.params.dish_type;
+  if (!food) return 'Похоже, запрос не связан с едой. Опишите блюдо или перечислите продукты — например, «ужин из курицы и овощей».';
+  const f = forbiddenSet(req);
+  if ((req.diets.includes('vegan') || req.diets.includes('vegetarian')) && MEAT_RX.test(t)) {
+    return `Запрос невыполним: мясо не подходит для диеты «${DIETS[req.diets.includes('vegan') ? 'vegan' : 'vegetarian']}». Уберите мясо из запроса или выберите другую диету.`;
+  }
+  for (const k of req.ingredients) {
+    const bad = ING[k].tags.find(tg => f.has(tg));
+    if (bad && ALT[k] && !ING[ALT[k]].tags.some(tg => f.has(tg))) continue; // есть безопасная замена
+    if (!bad) continue;
+    const diet = req.diets.find(d => (DIET_FORBID[d] || []).includes(bad));
+    const why = diet ? `не подходит для диеты «${DIETS[diet]}»` : ALLERGENS[bad] ? `содержит исключённый аллерген «${ALLERGENS[bad]}»` : 'противоречит ограничениям';
+    return `Запрос невыполним: «${ING[k].tn}» ${why}. Уберите продукт или измените ограничения.`;
+  }
+  return null;
+}
+
+/* =========================================================
+   Генератор рецептов (локальная модель-заглушка вместо Claude API)
+   ========================================================= */
+function buildCtx(req, seed) {
+  const r = rng(seed);
+  const forbid = forbiddenSet(req);
+  const exclude = new Set(req.exclude);
+  const ok = k => !!ING[k] && !exclude.has(k) && !ING[k].tags.some(t => forbid.has(t));
+  const user = [...new Set(req.ingredients.map(k => ok(k) ? k : (ALT[k] && ok(ALT[k]) ? ALT[k] : null)).filter(Boolean))];
+  const used = new Set();
+  const shuffle = arr => arr.map(x => [r(), x]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+  const c = {
+    r, ok, user, used, forbid, shuffle, text: req.text, cuisine: req.cuisine, quick: req.maxTime, boost: req.boost,
+    noOven: req.noOven, keto: forbid.has('highcarb'), chance: p => r() < p, has: k => user.includes(k),
+    I: (k, a, grp = null) => (k && ok(k)) ? { k, a, grp } : null,
+    pick(list, opt = {}) {
+      const not = opt.not || [];
+      const cand = list.filter(k => ok(k) && !used.has(k) && !not.includes(k));
+      const u = cand.filter(k => user.includes(k));
+      const k = u.length ? u[0] : shuffle(cand)[0];
+      if (k) used.add(k);
+      return k || null;
+    },
+    pickMany(list, n, opt = {}) {
+      const not = opt.not || [];
+      const cand = list.filter(k => ok(k) && !used.has(k) && !not.includes(k));
+      const u = cand.filter(k => user.includes(k));
+      const rest = shuffle(cand.filter(k => !u.includes(k)));
+      const out = u.length >= n ? u.slice(0, 4) : [...u, ...rest.slice(0, n - u.length)];
+      out.forEach(k => used.add(k));
+      return out;
+    },
+  };
+  return c;
+}
+const accList = ks => listJoin(ks.map(k => ING[k].acc));
+
+const TPL = {
+  stirfry(c) {
+    const { I } = c;
+    const P = c.pick(['chicken','turkey','beef','pork','shrimp','salmon','tofu','chickpeas','mushrooms','beans','lentils']); if (!P) return null;
+    const p = ING[P];
+    const V = c.pickMany(['zucchini','broccoli','pepper','carrot','eggplant','spinach','cabbage','mushrooms','tomato','pumpkin'], 2);
+    const G = c.keto ? null : c.pick(c.quick && c.quick <= 25 ? ['ricenoodle','buckwheat'] : ['rice','buckwheat','ricenoodle','quinoa']);
+    const asian = c.cuisine ? c.cuisine === 'asian' : (G === 'ricenoodle' || c.r() < .4);
+    const sauce = asian ? (c.ok('soysauce') ? 'soysauce' : c.ok('tamari') ? 'tamari' : null) : null;
+    const on = c.ok('onion'), ga = c.ok('garlic'), gi = asian && c.ok('ginger'), ses = asian && c.ok('sesame');
+    const items = [I(P, p.ps * (c.boost ? 1.5 : 1)), ...V.map(v => I(v, ING[v].ps * (V.length > 2 ? .8 : 1))), on && I('onion', 40), ga && I('garlic', 1), gi && I('ginger', 5), I('oil', 1),
+      sauce ? I(sauce, 1.5, 'Для соуса') : I('lemon', .25, 'Для соуса'), G && I(G, ING[G].ps, 'Гарнир'), ses ? I('sesame', 1, 'Для подачи') : I('greens', 5, 'Для подачи'), I('salt', null)];
+    const fry = p.ck[0] + 360;
+    const chopped = [on && 'лук', ga && 'чеснок'].filter(Boolean);
+    const addList = [on && 'лук', gi && 'тёртый имбирь', ga && 'чеснок', V.length && 'овощи'].filter(Boolean);
+    const steps = [
+      p.pre && [p.pre[1], p.pre[0]],
+      G && [ING[G].cookText, ING[G].cookTime],
+      [`${p.cut}${V.length ? `, ${accList(V)} нарежьте тонкой соломкой или небольшим кубиком` : ''}.${chopped.length ? ` Мелко порубите ${listJoin(chopped)}.` : ''}`, 0],
+      [`Разогрейте масло в ${asian ? 'воке' : 'глубокой сковороде'} на сильном огне. Обжарьте ${p.acc} ${p.ck[1]}.`, p.ck[0]],
+      [`Добавьте ${listJoin(addList) || 'остальные ингредиенты'}. Готовьте 4–5 минут, постоянно помешивая, — овощи должны остаться слегка хрустящими.`, 300],
+      [sauce ? `Влейте ${ING[sauce].acc} и 2 ст. л. воды, перемешайте и прогрейте 1 минуту.` : `Посолите, поперчите${c.ok('lemon') ? ', сбрызните лимонным соком' : ''} и прогрейте ещё 1 минуту.`, 60],
+      [`Подавайте горячим${G ? ' с гарниром — ' + ING[G].nm.toLowerCase() : ''}${ses ? ', посыпав кунжутом' : ', посыпав зеленью'}.`, 0],
+    ];
+    const v0 = V[0] && ING[V[0]], v1 = V[1] && ING[V[1]];
+    let title;
+    if (asian) title = `Вок ${W(p.t)}${v0 ? ' и ' + v0.t : ''}`;
+    else if (G && v0 && (c.has(G) || c.r() < .6)) title = `${p.tn} ${W(v0.t)} и ${ING[G].t}`;
+    else title = `${p.tn} ${v0 ? W(v0.t) + (v1 ? ' и ' + v1.t : '') : 'с овощами'}`;
+    return { type: 'main', tpl: 'stirfry', title, items, steps, prep: c.quick ? 10 : 15,
+      cook: Math.ceil(Math.max(G ? ING[G].cookTime : 0, (p.pre ? p.pre[0] : 0) + fry) / 60) + 2,
+      difficulty: 'easy', cuisine: asian ? 'asian' : (c.cuisine || (G === 'buckwheat' ? 'russian' : 'european')), emoji: asian ? '🥢' : '🥘',
+      tips: ['Не перегружайте сковороду: обжаривайте белок в два захода, иначе он начнёт тушиться, а не жариться.', 'Нарежьте все ингредиенты заранее — блюдо готовится очень быстро.', 'Гарнир можно приготовить заранее и хранить в холодильнике до 3 дней.'] };
+  },
+
+  bake(c) {
+    if (c.noOven) return null;
+    const { I } = c;
+    const P = c.pick(['chicken','turkey','salmon','cod','pork','tofu','chickpeas','beef']); if (!P) return null;
+    const p = ING[P];
+    const V = c.pickMany(['pumpkin','zucchini','broccoli','pepper','carrot','eggplant','tomato'].concat(c.keto ? [] : ['potato']), 2);
+    const fish = p.tags.includes('fish');
+    const bt = { chicken: [30,200], turkey: [30,200], salmon: [18,200], cod: [20,200], pork: [35,190], tofu: [25,200], chickpeas: [25,210], beef: [40,180] }[P];
+    const herb = c.cuisine === 'georgian' ? 'khmeli' : c.cuisine === 'mexican' ? 'paprika' : 'herbs';
+    const items = [I(P, p.ps * (c.boost ? 1.5 : 1)), ...V.map(v => I(v, ING[v].ps)), I('garlic', 1), I('oil', 1.5), I(herb, null), fish && I('lemon', .25), I('greens', 5, 'Для подачи'), I('salt', null)];
+    const steps = [
+      [`Разогрейте духовку до ${bt[1]} °C.`, 0],
+      [`Нарежьте ${accList(V) || 'овощи'} крупными кусками, перемешайте с половиной масла, измельчённым чесноком, солью и специями.`, 0],
+      ['Выложите овощи на противень с бумагой для выпечки и запекайте 10 минут.', 600],
+      [`Тем временем подготовьте ${p.acc}: смажьте оставшимся маслом, посолите и приправьте${fish && c.ok('lemon') ? ', сбрызните лимонным соком' : ''}.`, 0],
+      [`Выложите ${p.acc} на овощи и запекайте ещё ${bt[0]} минут${p.safe ? ' — ' + p.safe : ''}.`, bt[0] * 60],
+      ['Дайте блюду постоять 5 минут, посыпьте зеленью и подавайте.', 300],
+    ];
+    const v0 = V[0] && ING[V[0]], v1 = V[1] && ING[V[1]];
+    const title = `${p.tn}, запечённ${END[p.g]} ${v0 ? W(v0.t) + (v1 ? ' и ' + v1.t : '') : 'с травами'}`;
+    return { type: 'main', tpl: 'bake', title, items, steps, prep: 15, cook: 10 + bt[0] + 5, difficulty: 'medium', cuisine: c.cuisine || 'european', emoji: '🍽️',
+      tips: ['Нарезайте овощи одинаково — так они пропекутся равномерно.', 'Для румяной корочки включите режим гриля на последние 3 минуты.', 'Остатки отлично подходят для обеда на следующий день.'] };
+  },
+
+  pasta(c) {
+    if (c.keto) return null;
+    const { I } = c;
+    const Pa = c.ok('pasta') ? 'pasta' : 'gfpasta'; c.used.add('pasta');
+    const P = c.pick(['shrimp','chicken','mushrooms','salmon','tofu','turkey']);
+    const wantTomato = /томат|помидор|болонь|аррабьят/.test(c.text);
+    const creamy = !wantTomato && (c.ok('cream') || c.ok('coconutmilk')) && (/сливоч/.test(c.text) || c.chance(.6));
+    const sauce = creamy ? (c.ok('cream') ? 'cream' : 'coconutmilk') : null;
+    const V = c.pickMany(sauce ? ['spinach','zucchini','broccoli','mushrooms'] : ['zucchini','pepper','spinach','eggplant','mushrooms'], 1, { not: ['tomato'] });
+    const parm = c.ok('parmesan');
+    const p = P && ING[P];
+    const items = [I(Pa, 90), P && I(P, p.ps * .8), ...V.map(v => I(v, 70)), I('garlic', 1), I('oil', 1), sauce ? I(sauce, 70, 'Для соуса') : I('tomato', 180, 'Для соуса'), !sauce && I('herbs', null, 'Для соуса'), parm && I('parmesan', 15, 'Для подачи'), I('greens', 3, 'Для подачи'), I('salt', null)];
+    const steps = [
+      [ING[Pa].cookText, ING[Pa].cookTime],
+      P && [`Разогрейте масло на сковороде и обжарьте ${p.acc} ${p.ck[1]}.`, p.ck[0]],
+      [`Добавьте измельчённый чеснок${V.length ? ' и ' + accList(V) : ''}, готовьте 3 минуты.`, 180],
+      sauce ? [`Влейте ${ING[sauce].acc}, доведите до лёгкого кипения и томите 3–4 минуты, пока соус не загустеет.`, 240]
+            : ['Добавьте нарезанные помидоры (или томаты в собственном соку) и травы, посолите и томите 7–8 минут.', 480],
+      ['Переложите пасту в соус вместе с 2–3 ст. л. воды от варки и перемешайте 1 минуту.', 60],
+      [`Подавайте сразу${parm ? ', посыпав тёртым пармезаном' : ''} и зеленью.`, 0],
+    ];
+    const main = P ? p.t : V[0] ? ING[V[0]].t : null;
+    const title = `Паста${main ? ' ' + W(main) : ''} в ${sauce ? (sauce === 'cream' ? 'сливочном' : 'кокосово-сливочном') : 'томатном'} соусе`;
+    return { type: 'main', tpl: 'pasta', title, items, steps, prep: 10, cook: 20, difficulty: 'easy', cuisine: c.cuisine || 'italian', emoji: '🍝',
+      tips: ['Вода для пасты должна быть солёной «как море» — около 10 г соли на литр.', 'Крахмалистая вода от варки делает соус шелковистым и помогает ему «обнять» пасту.', 'Не промывайте пасту после варки, иначе соус не будет держаться.'] };
+  },
+
+  soup(c) {
+    const { I } = c;
+    const cream = /крем|пюре/.test(c.text) || (['pumpkin','broccoli'].some(c.has) && !c.user.some(k => ['chicken','turkey','beef','lentils','chickpeas','beans','cod'].includes(k)));
+    const pot = !c.keto && c.ok('potato');
+    if (cream) {
+      const B = c.pick(['pumpkin','broccoli','zucchini','mushrooms','carrot']); if (!B) return null;
+      const b = ING[B];
+      const liquid = c.ok('cream') && !c.has('coconutmilk') ? 'cream' : c.ok('coconutmilk') ? 'coconutmilk' : null;
+      const car = B !== 'carrot' && c.ok('carrot');
+      const items = [I(B, 220), I('onion', 40), car && I('carrot', 40), pot && I('potato', 60), I('garlic', 1), I('oil', .75), I('broth', 300), liquid && I(liquid, 50), c.ok('sesame') && c.chance(.4) ? I('sesame', 1, 'Для подачи') : I('greens', 3, 'Для подачи'), I('salt', null)];
+      const steps = [
+        [`Нарежьте ${b.acc}, лук${car ? ', морковь' : ''}${pot ? ' и картофель' : ''} кубиками.`, 0],
+        [`В кастрюле с толстым дном разогрейте масло и обжарьте лук${car ? ' с морковью' : ''} и чесноком 5 минут.`, 300],
+        [`Добавьте ${b.acc}${pot ? ' и картофель' : ''}, залейте горячей водой или бульоном так, чтобы овощи были покрыты. Варите 20 минут до мягкости.`, 1200],
+        ['Пробейте суп погружным блендером до гладкости.', 0],
+        [liquid ? `Влейте ${ING[liquid].acc}, посолите, поперчите и прогрейте 2 минуты, не доводя до кипения.` : 'Посолите, поперчите и прогрейте 2 минуты.', 120],
+        ['Разлейте по тарелкам и украсьте зеленью или кунжутом.', 0],
+      ];
+      return { type: 'soup', tpl: 'creamsoup', title: `Крем-суп из ${b.gen}${liquid === 'coconutmilk' ? ' на кокосовом молоке' : ''}`, items, steps, prep: 10, cook: 30, difficulty: 'easy', cuisine: c.cuisine || 'european', emoji: '🥣',
+        tips: ['Если суп получился густым, разбавьте его горячей водой до нужной консистенции.', 'Обжаренные семечки или гренки добавят хруста.', 'Суп хорошо замораживается — до 2 месяцев.'] };
+    }
+    const P = c.pick(['chicken','lentils','beef','chickpeas','beans','mushrooms','turkey','cod']); if (!P) return null;
+    const p = ING[P];
+    const V = c.pickMany(['tomato','pepper','zucchini','cabbage','celery','spinach','broccoli','pumpkin'], 1);
+    const lemon = P === 'lentils' && c.ok('lemon');
+    const items = [I(P, P === 'lentils' ? 50 : p.ps * .7), pot && I('potato', 100), I('carrot', 50), I('onion', 40), ...V.map(v => I(v, 60)), I('garlic', 1), I('oil', .5), I('broth', 350), c.cuisine === 'georgian' && I('khmeli', null), I('greens', 5, 'Для подачи'), lemon && I('lemon', .25, 'Для подачи'), I('salt', null)];
+    const vn = V.length ? ', ' + accList(V) : '';
+    const cookMain = p.soupMode === 'broth' ? p.soupT : 0;
+    const steps = [
+      p.soupMode === 'broth' && [`Залейте ${p.acc} 1,5 л холодной воды, доведите до кипения, снимите пену и варите ${p.soupT} минут на слабом огне.`, p.soupT * 60],
+      p.soupMode === 'broth' && [`Достаньте ${p.acc}, нарежьте небольшими кусочками и верните в бульон.`, 0],
+      P === 'lentils' && ['Промойте чечевицу до прозрачной воды.', 0],
+      ['Нарежьте лук и морковь, обжарьте на масле 5 минут до мягкости.', 300],
+      [`Добавьте в кастрюлю ${pot ? 'нарезанный картофель, ' : ''}зажарку${p.soupMode === 'with' ? ' и ' + p.acc : ''}${vn}${p.soupMode === 'with' ? ', залейте водой или бульоном' : ''}. Варите ${p.soupMode === 'with' ? p.soupT : 15} минут.`, (p.soupMode === 'with' ? p.soupT : 15) * 60],
+      p.soupMode === 'late' && [`Положите ${p.acc} кусочками и варите ещё ${p.soupT} минут, ${p.safe}.`, p.soupT * 60],
+      ['Добавьте измельчённый чеснок, посолите, поперчите и дайте супу настояться 5 минут под крышкой.', 300],
+      [`Подавайте с зеленью${lemon ? ' и долькой лимона' : ''}.`, 0],
+    ];
+    const v0 = V[0] && ING[V[0]];
+    const title = p.soupMode === 'with' ? `Суп из ${p.gen}${v0 ? ' ' + W(v0.t) : ''}` : `Суп ${W(p.t)} и ${v0 ? v0.t : 'овощами'}`;
+    return { type: 'soup', tpl: 'soup', title, items, steps, prep: 15, cook: cookMain + (p.soupMode === 'with' ? p.soupT : 15) + 10 + (p.soupMode === 'late' ? p.soupT : 0), difficulty: p.soupMode === 'broth' ? 'medium' : 'easy', cuisine: c.cuisine || 'russian', emoji: '🍲',
+      tips: ['Суп становится вкуснее на следующий день, когда настоится.', 'Добавьте ложку сметаны или йогурта при подаче, если нет ограничений по молочному.', 'Храните в холодильнике до 3 суток.'] };
+  },
+
+  salad(c) {
+    const { I } = c;
+    const P = c.pick(['chickpeas','shrimp','tofu','eggs','mozzarella','beans','chicken','salmon','cheese']);
+    const V = c.pickMany(['cucumber','tomato','pepper','spinach','avocado','cabbage','carrot'], 3);
+    if (!P && V.length < 2) return null;
+    const p = P && ING[P];
+    const lemon = c.ok('lemon'), must = c.ok('mustard'), hon = c.ok('honey') && c.chance(.5), on = c.ok('onion') && c.chance(.5);
+    const top = c.ok('walnuts') && c.chance(.4) ? 'walnuts' : c.ok('sesame') && c.chance(.4) ? 'sesame' : null;
+    const items = [P && I(P, P === 'eggs' ? 1 : p.ps * .8), ...V.map(v => I(v, v === 'avocado' ? 50 : 70)), on && I('onion', 15), I('oil', 1, 'Для заправки'), lemon && I('lemon', .25, 'Для заправки'), must && I('mustard', .5, 'Для заправки'), hon && I('honey', .5, 'Для заправки'), I('greens', 5), top && I(top, top === 'walnuts' ? 10 : 1, 'Для подачи'), I('salt', null)];
+    let prepStep = null, cook = 0;
+    if (P === 'eggs') { prepStep = ['Отварите яйца вкрутую 9 минут, остудите в холодной воде, очистите и нарежьте.', 540]; cook = 10; }
+    else if (['chicken','shrimp','salmon','tofu'].includes(P)) { prepStep = [`Обжарьте ${p.acc} на капле масла ${p.ck[1]}, остудите и нарежьте.`, p.ck[0]]; cook = Math.ceil(p.ck[0] / 60) + 3; }
+    else if (['chickpeas','beans'].includes(P)) prepStep = [`Промойте ${p.acc} и обсушите.`, 0];
+    else if (P) prepStep = [`Нарежьте ${p.acc} кубиками.`, 0];
+    const dress = ['соль', 'перец', lemon && 'лимонный сок', must && 'горчицу', hon && 'мёд'].filter(Boolean);
+    const steps = [prepStep,
+      [`Нарежьте ${accList(V)}${on ? ' и тонкими полукольцами лук' : ''}.`, 0],
+      [`Взбейте вилкой масло, ${listJoin(dress)}.`, 0],
+      ['Соедините все ингредиенты, полейте заправкой и аккуратно перемешайте.', 0],
+      [`Подавайте сразу${top ? ', посыпав ' + (top === 'walnuts' ? 'рублеными орехами' : 'кунжутом') : ''}.`, 0]];
+    const v0 = V[0] && ING[V[0]], v1 = V[1] && ING[V[1]];
+    const title = P ? `Салат ${W(p.t)}${v0 ? (v1 ? ', ' + v0.t + ' и ' + v1.t : ' и ' + v0.t) : ''}` : `Овощной салат ${W(v0.t)}${v1 ? ' и ' + v1.t : ''}`;
+    return { type: 'salad', tpl: 'salad', title, items, steps, prep: 15, cook, difficulty: 'easy', cuisine: c.cuisine || 'mediterranean', emoji: '🥗',
+      tips: ['Заправляйте салат непосредственно перед подачей, чтобы овощи остались хрустящими.', 'Охлаждённые овощи делают салат свежее на вкус.', 'Для сытности добавьте горсть отварной киноа.'] };
+  },
+
+  breakfast(c) {
+    const t = c.text;
+    const want = /омлет|яичн|фрит/.test(t) ? 'omelette' : /каш|овсян/.test(t) ? 'porridge' : /сырник/.test(t) ? 'syrniki' : /тофу|скрэмбл/.test(t) ? 'scramble'
+      : c.has('eggs') ? 'omelette' : c.has('tvorog') ? 'syrniki' : ['banana','berries','oats','apple'].some(c.has) ? 'porridge' : null;
+    for (const v of [want, ...c.shuffle(['omelette','porridge','syrniki','scramble'])].filter(Boolean)) { const res = BREAKFAST[v](c); if (res) return res; }
+    return null;
+  },
+
+  dessert(c) {
+    const t = c.text;
+    const want = /яблок/.test(t) ? 'apples' : /творог|творож/.test(t) ? 'tvorogD' : /морожен|банан/.test(t) ? 'nicecream' : /сливк/.test(t) ? 'berriesCream'
+      : c.has('apple') ? 'apples' : c.has('tvorog') ? 'tvorogD' : c.has('banana') ? 'nicecream' : null;
+    for (const v of [want, ...c.shuffle(['apples','tvorogD','nicecream','berriesCream'])].filter(Boolean)) { const res = DESSERT[v](c); if (res) return res; }
+    return null;
+  },
+
+  baking(c) {
+    if (c.noOven || c.keto) return null;
+    const { I } = c;
+    const bread = /хлеб|кекс|маффин/.test(c.text);
+    const nuts = c.ok('walnuts') && (c.has('walnuts') || c.chance(.5));
+    if (bread && c.ok('banana') && c.ok('eggs')) {
+      const fl = c.ok('flour') ? 'flour' : 'riceflour', sw = c.ok('sugar') ? 'sugar' : c.ok('honey') ? 'honey' : null, fat = c.ok('butter') ? 'butter' : 'oil';
+      const items = [I(fl, 40), I('banana', .7), I('eggs', .5), sw && I(sw, sw === 'sugar' ? 12 : 1.5), I(fat, fat === 'butter' ? 10 : .8), I('bakingpowder', .25), nuts && I('walnuts', 10), I('cinnamon', null)];
+      const steps = [['Разогрейте духовку до 175 °C, смажьте форму для кекса маслом.', 0], ['Разомните бананы вилкой в пюре.', 0],
+        [`Взбейте яйца${sw ? ` с ${sw === 'sugar' ? 'сахаром' : 'мёдом'}` : ''}, добавьте растопленное масло и банановое пюре.`, 0],
+        ['Вмешайте муку, разрыхлитель и корицу до однородности, не перемешивайте долго.', 0], nuts && ['Добавьте рубленые орехи.', 0],
+        ['Переложите тесто в форму и выпекайте 50 минут. Проверьте готовность деревянной шпажкой — она должна выходить сухой.', 3000], ['Остудите в форме 15 минут, затем выньте и нарежьте.', 900]];
+      return { type: 'baking', tpl: 'bananabread', title: `Банановый хлеб${nuts ? ' с орехами' : ''}`, items, steps, prep: 15, cook: 50, difficulty: 'medium', cuisine: c.cuisine || 'european', emoji: '🍞',
+        tips: ['Чем спелее бананы (с тёмными пятнышками), тем слаще и ароматнее хлеб.', 'Хранится 3 дня под плёнкой или до месяца в морозилке.'] };
+    }
+    const G = c.ok('oats') ? 'oats' : c.ok('gfoats') ? 'gfoats' : null;
+    if (!G || !c.ok('banana')) return null;
+    const hon = c.ok('honey') && c.chance(.5);
+    const items = [I(G, 40), I('banana', .5), nuts && I('walnuts', 10), hon && I('honey', .5), I('cinnamon', null)];
+    const steps = [['Разогрейте духовку до 180 °C, застелите противень бумагой для выпечки.', 0], [`Разомните банан в пюре, смешайте с хлопьями${nuts ? ', рублеными орехами' : ''}${hon ? ', мёдом' : ''} и корицей.`, 0],
+      ['Оставьте массу на 10 минут, чтобы хлопья набухли.', 600], ['Влажными руками сформируйте печенье толщиной около 1 см и выложите на противень.', 0],
+      ['Выпекайте 15 минут до золотистого цвета.', 900], ['Остудите на решётке 10 минут — печенье окрепнет.', 600]];
+    return { type: 'baking', tpl: 'cookies', title: `Овсяное печенье с бананом${nuts ? ' и орехами' : ''}`, items, steps, prep: 20, cook: 15, difficulty: 'easy', cuisine: c.cuisine || 'european', emoji: '🍪',
+      tips: ['Из одной порции получается 3–4 печенья.', 'Добавьте горсть изюма или тёмного шоколада для разнообразия.'] };
+  },
+
+  snack(c) {
+    const t = c.text;
+    const want = /хумус/.test(t) ? 'hummus' : /брускет/.test(t) ? 'bruschetta' : /гуакам|авокад/.test(t) ? 'guacamole' : c.has('chickpeas') ? 'hummus' : c.has('bread') ? 'bruschetta' : null;
+    for (const v of [want, ...c.shuffle(['hummus','bruschetta','guacamole'])].filter(Boolean)) { const res = SNACK[v](c); if (res) return res; }
+    return null;
+  },
+
+  drink(c) {
+    const { I } = c;
+    const keto = c.keto || !c.ok('banana');
+    if (!c.ok('berries') && keto) return null;
+    const liquid = c.ok('yogurt') && c.chance(.4) ? 'yogurt' : c.ok('milk') && !keto ? 'milk' : c.ok('coconutmilk') && keto ? 'coconutmilk' : 'plantmilk';
+    const sp = c.ok('spinach') && (/зелен/.test(c.text) || c.has('spinach'));
+    const oat = !c.keto && c.ok('oats') && /сытн|завтрак/.test(c.text);
+    const hon = c.ok('honey') && !c.keto && c.chance(.4);
+    const items = [!keto && I('banana', 1), I('berries', 80), I(liquid, liquid === 'yogurt' ? 120 : 150), sp && I('spinach', 20), oat && I('oats', 15), hon && I('honey', 1)];
+    const steps = [[`Очистите и нарежьте ${keto ? 'ягоды, если они крупные' : 'банан'}. Для густого смузи используйте замороженные фрукты.`, 0],
+      ['Сложите все ингредиенты в блендер.', 0], ['Взбейте на высокой скорости 1 минуту до однородности.', 60], ['Разлейте по стаканам и сразу подавайте.', 0]];
+    const title = keto ? `Ягодный смузи на ${liquid === 'coconutmilk' ? 'кокосовом молоке' : 'растительном молоке'}` : `Смузи с бананом и ягодами${sp ? ' (зелёный)' : ''}`;
+    return { type: 'drink', tpl: 'smoothie', title, items, steps, prep: 5, cook: 0, difficulty: 'easy', cuisine: c.cuisine || 'european', emoji: '🥤',
+      tips: ['Замороженный банан заменяет лёд и делает текстуру кремовой.', 'Пейте сразу — со временем смузи расслаивается.'] };
+  },
+};
+
+const BREAKFAST = {
+  omelette(c) {
+    if (!c.ok('eggs')) return null; c.used.add('eggs');
+    const { I } = c;
+    const liquid = c.ok('milk') ? 'milk' : c.ok('plantmilk') ? 'plantmilk' : null;
+    const V = c.pickMany(['tomato','spinach','pepper','mushrooms','zucchini'], 2);
+    const cheese = c.ok('cheese') && (c.has('cheese') || c.chance(.5));
+    const fat = c.ok('butter') ? 'butter' : 'oil';
+    const items = [I('eggs', 2), liquid && I(liquid, 30), ...V.map(v => I(v, 50)), cheese && I('cheese', 20), I(fat, fat === 'butter' ? 7 : .5), I('greens', 3), I('salt', null)];
+    const steps = [[`Взбейте яйца ${liquid ? 'с молоком, ' : ''}щепоткой соли и перца до однородности.`, 0], V.length && [`Нарежьте ${accList(V)} небольшими кусочками.`, 0],
+      [`Разогрейте ${fat === 'butter' ? 'сливочное' : 'оливковое'} масло на сковороде${V.length ? ' и обжарьте овощи 3 минуты' : ''}.`, V.length ? 180 : 0],
+      ['Влейте яичную смесь, накройте крышкой и готовьте на слабом огне 6–7 минут, пока омлет не схватится.', 420],
+      cheese && ['Посыпьте тёртым сыром за минуту до готовности.', 60], ['Подавайте горячим с зеленью.', 0]];
+    const v0 = V[0] && ING[V[0]];
+    const title = `Омлет ${v0 ? W(v0.t) + (cheese ? ' и сыром' : V[1] ? ' и ' + ING[V[1]].t : '') : cheese ? 'с сыром' : 'с зеленью'}`;
+    return { type: 'breakfast', tpl: 'omelette', title, items, steps, prep: 5, cook: 10, difficulty: 'easy', cuisine: c.cuisine || 'european', emoji: '🍳',
+      tips: ['Не взбивайте яйца слишком долго — омлет будет нежнее.', 'Готовьте под крышкой на слабом огне, чтобы низ не подгорел.'] };
+  },
+  porridge(c) {
+    if (c.keto) return null;
+    const G = c.ok('oats') ? 'oats' : c.ok('gfoats') ? 'gfoats' : null; if (!G) return null; c.used.add('oats');
+    const { I } = c;
+    const liquid = c.ok('milk') ? 'milk' : 'plantmilk';
+    const F = c.pick(['banana','berries','apple']);
+    const nuts = c.ok('walnuts') && (c.has('walnuts') || c.chance(.5));
+    const sweet = c.ok('honey') && c.chance(.6);
+    const items = [I(G, 50), I(liquid, 200), F && I(F, F === 'berries' ? 60 : .5, 'Для подачи'), nuts && I('walnuts', 15, 'Для подачи'), sweet && I('honey', 1, 'Для подачи'), I('cinnamon', null)];
+    const steps = [[`Доведите ${ING[liquid].acc} до кипения на среднем огне, добавьте щепотку соли.`, 0], ['Всыпьте хлопья, убавьте огонь и варите 5 минут, помешивая.', 300],
+      ['Снимите с огня, накройте крышкой и дайте постоять 2 минуты.', 120],
+      [`Разложите по тарелкам${F ? ', добавьте ' + ING[F].top : ''}${nuts ? ', рубленые орехи' : ''}${sweet ? ', полейте мёдом' : ''} и посыпьте корицей.`, 0]];
+    return { type: 'breakfast', tpl: 'porridge', title: `Овсяная каша ${F ? W(ING[F].t) : 'с корицей'}${nuts ? ' и орехами' : ''}`, items, steps, prep: 3, cook: 10, difficulty: 'easy', cuisine: c.cuisine || 'european', emoji: '🥣',
+      tips: ['Для кремовой текстуры используйте хлопья среднего помола, а не быстрые.', 'Вечером можно залить хлопья молоком и убрать в холодильник — получится «ленивая овсянка».'] };
+  },
+  scramble(c) {
+    if (!c.ok('tofu')) return null; c.used.add('tofu');
+    const { I } = c;
+    const V = c.pickMany(['tomato','spinach','pepper','mushrooms','zucchini'], 2);
+    const items = [I('tofu', 150), ...V.map(v => I(v, 50)), I('onion', 20), I('oil', .75), I('turmeric', null), I('greens', 3), I('salt', null)];
+    const steps = [['Разомните тофу вилкой до консистенции крупной крошки.', 0], [`Нарежьте лук${V.length ? ', ' + accList(V) : ''}.`, 0], ['Обжарьте лук и овощи на масле 4 минуты.', 240],
+      ['Добавьте тофу, куркуму, паприку и соль. Готовьте 5 минут, помешивая.', 300], ['Подавайте с зеленью и цельнозерновым тостом.', 0]];
+    return { type: 'breakfast', tpl: 'scramble', title: `Скрэмбл из тофу ${V[0] ? W(ING[V[0]].t) : 'с зеленью'}`, items, steps, prep: 5, cook: 10, difficulty: 'easy', cuisine: c.cuisine || 'european', emoji: '🍳',
+      tips: ['Щепотка соли «кала намак» придаст вкус яйца.', 'Куркума отвечает за аппетитный жёлтый цвет.'] };
+  },
+  syrniki(c) {
+    if (!c.ok('tvorog') || !c.ok('eggs') || c.keto) return null; c.used.add('tvorog'); c.used.add('eggs');
+    const { I } = c;
+    const fl = c.ok('flour') ? 'flour' : 'riceflour', sw = c.ok('sugar') ? 'sugar' : c.ok('honey') ? 'honey' : null;
+    const F = c.ok('berries') ? 'berries' : c.ok('yogurt') ? 'yogurt' : null;
+    const items = [I('tvorog', 150), I('eggs', .5), I(fl, 25), sw && I(sw, sw === 'sugar' ? 10 : 1), I('oil', 1), F && I(F, 50, 'Для подачи')];
+    const steps = [[`Разомните творог вилкой, добавьте яйцо${sw ? ' и ' + (sw === 'sugar' ? 'сахар' : 'мёд') : ''}, перемешайте.`, 0], ['Вмешайте муку, оставив немного для обваливания. Тесто должно быть мягким, но не липким.', 0],
+      ['Сформируйте сырники толщиной 1,5 см и обваляйте в муке.', 0], ['Обжаривайте на разогретом масле на среднем огне по 3 минуты с каждой стороны до золотистой корочки.', 180],
+      [`Подавайте тёплыми${F ? ' ' + W(ING[F].t) : ''}.`, 0]];
+    return { type: 'breakfast', tpl: 'syrniki', title: `Сырники ${F ? W(ING[F].t) : 'классические'}`, items, steps, prep: 10, cook: 12, difficulty: 'medium', cuisine: c.cuisine || 'russian', emoji: '🥞',
+      tips: ['Отожмите влажный творог через марлю — сырники не будут расплываться.', 'Готовые сырники можно заморозить и разогревать в духовке.'] };
+  },
+};
+
+const DESSERT = {
+  apples(c) {
+    if (c.noOven || !c.ok('apple')) return null; c.used.add('apple');
+    const { I } = c;
+    const nuts = c.ok('walnuts'), sw = c.ok('honey') && !c.keto ? 'honey' : null;
+    const items = [I('apple', 1), nuts && I('walnuts', 15), sw && I(sw, 1), I('cinnamon', null)];
+    const steps = [['Разогрейте духовку до 180 °C.', 0], ['Вырежьте у яблок сердцевину, не прорезая дно.', 0], [`Наполните яблоки ${nuts ? 'рублеными орехами' : 'корицей'}${sw ? ' и мёдом' : ''}, посыпьте корицей.`, 0],
+      ['Запекайте 25 минут, пока яблоки не станут мягкими.', 1500], ['Остудите 5 минут и подавайте тёплыми.', 300]];
+    return { type: 'dessert', tpl: 'apples', title: `Печёные яблоки ${nuts ? 'с орехами и корицей' : 'с корицей'}`, items, steps, prep: 10, cook: 25, difficulty: 'easy', cuisine: c.cuisine || 'european', emoji: '🍎',
+      tips: ['Лучше всего подходят кисло-сладкие плотные сорта: антоновка, гренни смит.', 'Подайте с ложкой йогурта.'] };
+  },
+  tvorogD(c) {
+    if (!c.ok('tvorog') || !c.ok('berries')) return null; c.used.add('tvorog');
+    const { I } = c;
+    const hon = c.ok('honey') && !c.keto;
+    const items = [I('tvorog', 120), I('yogurt', 50), I('berries', 70), hon && I('honey', 1), c.ok('walnuts') && c.chance(.5) && I('walnuts', 10, 'Для подачи')];
+    const steps = [[`Взбейте творог${c.ok('yogurt') ? ' с йогуртом' : ''}${hon ? ' и мёдом' : ''} блендером 1 минуту до кремовой текстуры.`, 60], ['Выложите в стаканы слоями, чередуя с ягодами.', 0], ['Уберите в холодильник на 15 минут перед подачей.', 900]];
+    return { type: 'dessert', tpl: 'tvorogD', title: 'Творожный десерт с ягодами', items, steps, prep: 10, cook: 0, difficulty: 'easy', cuisine: c.cuisine || 'european', emoji: '🍨',
+      tips: ['Замороженные ягоды разморозьте и слейте лишний сок.', 'Посыпьте гранолой для хруста.'] };
+  },
+  nicecream(c) {
+    if (c.keto || !c.ok('banana')) return null; c.used.add('banana');
+    const { I } = c;
+    const pb = c.ok('peanutbutter') && c.chance(.6);
+    const items = [I('banana', 1.5), I('cocoa', 1), pb && I('peanutbutter', .5), I('plantmilk', 30)];
+    const steps = [['Нарежьте бананы кружочками и заморозьте минимум на 3 часа.', 10800], [`Взбейте замороженные бананы в блендере с какао${pb ? ', арахисовой пастой' : ''} и молоком до кремовой массы.`, 0], ['Подавайте сразу или уберите в морозилку на 30 минут для более плотной текстуры.', 1800]];
+    return { type: 'dessert', tpl: 'nicecream', title: `Банановое мороженое с какао${pb ? ' и арахисовой пастой' : ''}`, items, steps, prep: 10, cook: 0, difficulty: 'easy', cuisine: c.cuisine || 'european', emoji: '🍨',
+      tips: ['Используйте очень спелые бананы — сахар не понадобится.', 'Время заморозки не входит во время приготовления.'] };
+  },
+  berriesCream(c) {
+    const cr = c.ok('cream') ? 'cream' : c.ok('coconutmilk') ? 'coconutmilk' : null;
+    if (!c.ok('berries') || !cr) return null; c.used.add('berries');
+    const { I } = c;
+    const items = [I('berries', 100), I(cr, 60), c.ok('walnuts') && I('walnuts', 10, 'Для подачи')];
+    const steps = [[`Охладите ${ING[cr].acc} и миску в холодильнике 15 минут.`, 900], ['Взбейте до мягких пиков 3 минуты.', 180], ['Разложите ягоды по креманкам, сверху выложите крем и посыпьте орехами.', 0]];
+    return { type: 'dessert', tpl: 'berriesCream', title: `Ягоды со взбитыми ${cr === 'cream' ? 'сливками' : 'кокосовыми сливками'}`, items, steps, prep: 20, cook: 0, difficulty: 'easy', cuisine: c.cuisine || 'french', emoji: '🍓',
+      tips: ['Для взбивания сливки должны быть жирностью от 30 %.', 'Кокосовое молоко взбивается лучше, если банку охладить за ночь.'] };
+  },
+};
+
+const SNACK = {
+  hummus(c) {
+    if (c.keto || !c.ok('chickpeas')) return null; c.used.add('chickpeas');
+    const { I } = c;
+    const items = [I('chickpeas', 100), I('tahini', 1), I('lemon', .25), I('garlic', .5), I('oil', 1), I('paprika', null), I('carrot', 60, 'Для подачи'), I('cucumber', 60, 'Для подачи'), I('pepper', 50, 'Для подачи')];
+    const steps = [['Слейте жидкость с нута, оставив 3–4 ст. л.', 0], [`Взбейте нут блендером с ${c.ok('tahini') ? 'тахини, ' : ''}лимонным соком, чесноком и солью 2 минуты, добавляя жидкость от нута до кремовой текстуры.`, 120],
+      ['Нарежьте овощи длинными палочками.', 0], ['Выложите хумус в тарелку, сделайте углубление, полейте маслом и посыпьте паприкой. Подавайте с овощами.', 0]];
+    return { type: 'snack', tpl: 'hummus', title: 'Хумус с овощными палочками', items, steps, prep: 15, cook: 0, difficulty: 'easy', cuisine: c.cuisine || 'mediterranean', emoji: '🧆',
+      tips: ['Для идеально гладкого хумуса снимите с нута шкурки.', 'Хранится в холодильнике до 4 дней.'] };
+  },
+  bruschetta(c) {
+    if (!c.ok('bread') || !c.ok('tomato')) return null; c.used.add('bread');
+    const { I } = c;
+    const moz = c.ok('mozzarella') && (c.has('mozzarella') || c.chance(.5));
+    const items = [I('bread', 60), I('tomato', 80), moz && I('mozzarella', 30), I('garlic', .5), I('oil', .5), I('greens', 3), I('salt', null)];
+    const steps = [['Нарежьте хлеб ломтиками толщиной 1,5 см и подсушите на сухой сковороде или в духовке 3–4 минуты.', 210], ['Натрите тёплые тосты разрезанным зубчиком чеснока.', 0],
+      [`Нарежьте помидоры${moz ? ' и моцареллу' : ''} мелким кубиком, смешайте с маслом, солью и рубленым базиликом.`, 0], ['Выложите начинку на тосты непосредственно перед подачей.', 0]];
+    return { type: 'snack', tpl: 'bruschetta', title: `Брускетта с томатами${moz ? ' и моцареллой' : ''}`, items, steps, prep: 10, cook: 5, difficulty: 'easy', cuisine: c.cuisine || 'italian', emoji: '🥖',
+      tips: ['Используйте самые спелые и ароматные помидоры.', 'Собирайте брускетты прямо перед подачей, чтобы хлеб не размок.'] };
+  },
+  guacamole(c) {
+    if (!c.ok('avocado')) return null; c.used.add('avocado');
+    const { I } = c;
+    const items = [I('avocado', 90), I('tomato', 40), I('onion', 15), I('lemon', .25), (c.has('chili') || c.chance(.5)) && I('chili', .25), I('greens', 3), I('salt', null), I('pepper', 60, 'Для подачи'), I('carrot', 50, 'Для подачи')];
+    const steps = [['Разомните мякоть авокадо вилкой, оставив небольшие кусочки.', 0], ['Добавьте мелко нарезанные помидор, лук, зелень и чили, сок лимона и соль. Перемешайте.', 0], ['Нарежьте овощи палочками и подавайте с гуакамоле.', 0]];
+    return { type: 'snack', tpl: 'guacamole', title: 'Гуакамоле с овощами', items, steps, prep: 10, cook: 0, difficulty: 'easy', cuisine: c.cuisine || 'mexican', emoji: '🥑',
+      tips: ['Положите косточку авокадо в гуакамоле — он дольше не потемнеет.', 'Лимонный сок можно заменить соком лайма.'] };
+  },
+};
+
+function templateOrder(req) {
+  const fam = { main: ['stirfry','pasta','bake'], soup: ['soup'], salad: ['salad'], breakfast: ['breakfast'], dessert: ['dessert','baking','drink'], baking: ['baking','dessert'], snack: ['snack','salad'], drink: ['drink','dessert'] }[req.dish] || ['stirfry'];
+  let order = [...fam];
+  if (req.dish === 'main' && req.hint && order.includes(req.hint)) order = [req.hint, ...order.filter(x => x !== req.hint)];
+  order.push('stirfry', 'salad');
+  return [...new Set(order)];
+}
+
+function finalize(res, req, c) {
+  const items = res.items.filter(Boolean);
+  const steps = res.steps.filter(Boolean).map(s => ({ text: s[0], timer_seconds: s[1] || 0 }));
+  const has = k => items.some(i => i.k === k);
+  // продукты пользователя, которые шаблон не использовал
+  if (['main', 'soup', 'salad'].includes(res.type)) {
+    const left = c.user.filter(k => !has(k) && !c.used.has(k));
+    const extras = req.extras || [];
+    if (left.length || extras.length) {
+      left.forEach(k => items.push({ k, a: ING[k].u === 'г' ? ING[k].ps * .6 : ING[k].ps, grp: null }));
+      extras.forEach(n => items.push({ k: null, name: n, a: 50, grp: null }));
+      const names = [...left.map(k => ING[k].acc), ...extras];
+      steps.splice(Math.max(1, steps.length - 1), 0, { text: `Добавьте ${listJoin(names)} — нарезанными — вместе с основными ингредиентами и готовьте до мягкости.`, timer_seconds: 0 });
+    }
+  }
+  if (req.spicy && !has('chili') && ['main', 'soup', 'salad', 'snack'].includes(res.type)) {
+    items.push({ k: 'chili', a: .25, grp: null });
+    steps.splice(Math.max(1, steps.length - 1), 0, { text: 'Для остроты добавьте мелко нарезанный перец чили (без семян — если хотите мягче).', timer_seconds: 0 });
+  }
+  const cuisine = req.cuisine || res.cuisine;
+  if (cuisine === 'georgian' && !has('khmeli') && res.type !== 'drink') items.push({ k: 'khmeli', a: null });
+  if (cuisine === 'mexican' && !has('paprika') && res.type !== 'drink') items.push({ k: 'paprika', a: null });
+  // постпроверка ограничений (на случай ошибки шаблона — регенерация)
+  if (items.some(i => i.k && !c.ok(i.k))) return { violation: true };
+  const S = req.servings;
+  items.sort((a, b) => (a.k && ING[a.k].u === null ? 1 : 0) - (b.k && ING[b.k].u === null ? 1 : 0)); // «по вкусу» — в конце
+  const ingredients = items.map(i => {
+    const d = i.k ? ING[i.k] : null;
+    return { key: i.k, name: d ? d.nm : cap(i.name), amount: (i.a == null || (d && d.u == null)) ? null : i.a * S, unit: d ? d.u : 'г', group: i.grp || null };
+  });
+  const n = [0, 0, 0, 0];
+  items.forEach(i => { if (i.a == null) return; const d = i.k ? ING[i.k] : { k: [40, 1.5, .5, 7], gu: 1 }; const g = i.a * d.gu; d.k.forEach((v, j) => n[j] += v * g / 100); });
+  const nutrition = { kcal: Math.round(n[0]), protein_g: Math.round(n[1]), fat_g: Math.round(n[2]), carbs_g: Math.round(n[3]) };
+  const tags = new Set(items.flatMap(i => i.k ? ING[i.k].tags : []));
+  const allergens = Object.keys(ALLERGENS).filter(a => tags.has(a));
+  const diets = Object.keys(DIET_FORBID).filter(d => DIET_FORBID[d].every(t => !tags.has(t)) && (d !== 'keto' || nutrition.carbs_g <= 25) && (d !== 'pp' || nutrition.kcal <= 650) && !(req.extras || []).length);
+  // советы и замены
+  const keys = items.map(i => i.k).filter(Boolean);
+  const tips = [...(res.tips || []).slice(0, 2)];
+  if (keys.some(k => ['chicken', 'turkey'].includes(k))) tips.push('Безопасность: птица готова, когда температура в центре куска достигает 74 °C.');
+  else if (keys.includes('pork')) tips.push('Безопасность: свинина готова при 63 °C внутри и 3 минутах отдыха.');
+  else if (keys.some(k => ['salmon', 'cod'].includes(k))) tips.push('Рыба готова, когда мякоть становится непрозрачной и легко расслаивается вилкой.');
+  else if (res.tips && res.tips[2]) tips.push(res.tips[2]);
+  const substitutions = keys.filter(k => SUBS[k]).slice(0, 3).map(k => ({ ingredient: ING[k].tn, replacement: SUBS[k] }));
+  const main = items.filter(i => i.k && ING[i.k].u !== null && !['oil', 'salt', 'broth', 'garlic', 'greens', 'onion'].includes(i.k)).slice(0, 3).map(i => ING[i.k].tn.toLowerCase());
+  const [noun, g] = TYPE_NOUN[res.type];
+  const light = nutrition.kcal < 380;
+  const adj = (light ? { m: 'Лёгкий', f: 'Лёгкая', n: 'Лёгкое' } : { m: 'Сытный', f: 'Сытная', n: 'Сытное' })[g];
+  const total = res.prep + res.cook;
+  const dietNote = diets.filter(d => req.diets.includes(d)).map(d => DIETS[d].toLowerCase());
+  const description = `${adj} ${noun} ${CUISINES[cuisine] ? CUISINES[cuisine][1] + ' кухни' : ''}: ${listJoin(main)}. Время приготовления — ${total} мин, ${nutrition.kcal} ккал на порцию.${dietNote.length ? ' Соответствует запросу: ' + dietNote.join(', ') + '.' : ''}`;
+  const emojis = [...new Set(items.map(i => i.k && ING[i.k].e).filter(Boolean))].slice(0, 4);
+  let difficulty = res.difficulty;
+  if (req.difficulty === 'easy' && difficulty !== 'easy') difficulty = 'medium';
+  return { title: res.title, description, cuisine, dish_type: res.type, tpl: res.tpl, difficulty, prep_minutes: res.prep, cook_minutes: res.cook, servings: S, diets, allergens, nutrition, ingredients, steps, tips: tips.slice(0, 3), substitutions, emoji: res.emoji, emojis, total };
+}
+
+function generateRecipe(req, salt) {
+  const err = checkRequest(req);
+  if (err) return { error: err };
+  const order = templateOrder(req);
+  let fallback = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const seed = hash(JSON.stringify([req.text, req.diets, req.allergens, req.exclude, salt, attempt]));
+    for (const name of order) {
+      const c = buildCtx(req, seed + hash(name));
+      const res = TPL[name](c);
+      if (!res) continue;
+      const fin = finalize(res, req, c);
+      if (fin.violation) continue;
+      if (req.maxTime && fin.total > req.maxTime * 1.25) { fallback = fallback || fin; continue; }
+      return fin;
+    }
+    if (fallback) return fallback;
+  }
+  return { error: 'Не удалось подобрать рецепт под все ограничения одновременно. Попробуйте ослабить фильтры или изменить запрос.' };
+}
+
+function applyRefine(req, text) {
+  const t = norm(text);
+  const extra = parseRequest(text, [], {});
+  const r = JSON.parse(JSON.stringify(req));
+  r.text = norm(req.text + ' ' + text);
+  r.diets = [...new Set([...r.diets, ...extra.diets])];
+  r.allergens = [...new Set([...r.allergens, ...extra.allergens])];
+  r.exclude = [...new Set([...r.exclude, ...extra.exclude])];
+  r.forbidTags = [...new Set([...r.forbidTags, ...extra.forbidTags])];
+  r.ingredients = [...new Set([...r.ingredients, ...extra.ingredients])].filter(k => !r.exclude.includes(k));
+  if (extra.spicy) r.spicy = true;
+  if (extra.noOven || /духовк/.test(t)) { r.noOven = true; if (r.hint === 'bake') r.hint = null; }
+  if (/быстр/.test(t)) r.maxTime = Math.min(r.maxTime || 60, 30);
+  if (/прощ|легч/.test(t)) r.difficulty = 'easy';
+  if (/белк|протеин/.test(t)) r.boost = true;
+  if (/меньше калор|полегче|диетич/.test(t)) r.diets = [...new Set([...r.diets, 'pp'])];
+  if (extra.servings !== 2 || /2\s*порц|двоих/.test(t)) r.servings = extra.servings;
+  // уточнение важнее исходного списка: убираем продукты, которые теперь запрещены (если нет безопасной замены)
+  const f = forbiddenSet(r);
+  const bad = k => ING[k].tags.some(tg => f.has(tg)) && !(ALT[k] && !ING[ALT[k]].tags.some(tg => f.has(tg)));
+  r.ingredients = r.ingredients.filter(k => !bad(k));
+  if (r.diets.some(d => d === 'vegan' || d === 'vegetarian')) r.text = r.text.replace(new RegExp(MEAT_RX.source + '\\S*', 'g'), '');
+  r.prompt = req.prompt + ' → ' + text;
+  return r;
+}
+
+/* =========================================================
+   Данные (localStorage вместо PostgreSQL)
+   ========================================================= */
+const VERSION = 4;
+const DB = {
+  recipes: [], gens: [],
+  load() { this.recipes = store.get('recipes', []); this.gens = store.get('gens', []); },
+  save() { store.set('recipes', this.recipes); store.set('gens', this.gens); },
+  bySlug(s) { return this.recipes.find(r => r.slug === s); },
+  published() { return this.recipes.filter(r => r.status === 'published'); },
+};
+const TR = { а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'y',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'h',ц:'ts',ч:'ch',ш:'sh',щ:'sch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya' };
+function slugify(title, salt) {
+  const base = title.toLowerCase().split('').map(ch => TR[ch] ?? ch).join('').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
+  let slug = base, i = 0;
+  while (DB.bySlug(slug)) slug = base + '-' + (hash(base + salt + (i++)) % 46656).toString(36);
+  return slug;
+}
+function makeRecipe(fin, req, salt, parent) {
+  return Object.assign({}, fin, {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), slug: slugify(fin.title, salt),
+    hue: hash(fin.title) % 360, image_status: 'pending', status: 'published', source_prompt: req.prompt || req.tags.join(', '), req, salt,
+    parent_recipe_id: parent || null, model_version: 'chef-local-demo (AI_MODEL)', views: 0, helpful_count: 0, unhelpful_count: 0, feedback: [], created_at: Date.now(),
+  });
+}
+function logGen(entry) { DB.gens.push(Object.assign({ id: Date.now().toString(36), ts: Date.now() }, entry)); if (DB.gens.length > 2000) DB.gens.shift(); DB.save(); }
+function fakeUsage(req) { const tin = 650 + (req.prompt || '').length * 2, tout = 850 + Math.round(Math.random() * 400); return { tokens_in: tin, tokens_out: tout, cost_usd: +(tin * 3e-6 + tout * 15e-6 + 0.015).toFixed(4), latency_ms: 6000 + Math.round(Math.random() * 9000) }; }
+
+const SEEDS = [
+  ['Быстрый ужин из курицы, кабачка и риса', {}], ['Веганский суп из чечевицы', { diets: ['vegan'] }], ['Паста с креветками в сливочном соусе', {}],
+  ['Салат с нутом, огурцами и помидорами', { diets: ['vegetarian'] }], ['Омлет со шпинатом и помидорами на завтрак', {}], ['Запечённый лосось с брокколи и тыквой', {}],
+  ['Крем-суп из тыквы на кокосовом молоке', { diets: ['vegan'] }], ['Овсяная каша с бананом и орехами', {}], ['Хумус с овощными палочками', {}],
+  ['Смузи с бананом и ягодами', {}], ['Кето-ужин с говядиной и брокколи', { diets: ['keto'] }], ['Творожный десерт с ягодами', {}],
+  ['Овсяное печенье без сахара', { diets: ['vegan'] }], ['Острый вок с тофу и овощами', { diets: ['vegan'] }], ['Гречка с грибами и луком', {}],
+  ['Индейка, запечённая с тыквой', {}], ['Брускетта с томатами и моцареллой', {}], ['Суп с курицей и овощами на 4 порции', {}],
+  ['Сырники с ягодами', {}], ['Гуакамоле с овощами по-мексикански', {}], ['Паста в томатном соусе без глютена', { diets: ['gluten_free'] }],
+  ['Банановый хлеб с орехами', {}], ['Салат с креветками и авокадо', {}], ['Говядина по-грузински с баклажаном', { cuisine: 'georgian' }],
+];
+function seed() {
+  if (store.get('v', 0) === VERSION && store.get('recipes', null)) { DB.load(); return; }
+  DB.recipes = []; DB.gens = [];
+  const r = rng(42); const now = Date.now(); const day = 864e5;
+  SEEDS.forEach(([p, params], i) => {
+    const req = parseRequest(p, [], params);
+    const fin = generateRecipe(req, i);
+    if (fin.error) { console.warn('seed failed', p, fin.error); return; }
+    const rec = makeRecipe(fin, req, i, null);
+    rec.image_status = 'ready'; rec.views = Math.round(40 + r() * 2400); rec.helpful_count = Math.round(r() * 60); rec.unhelpful_count = Math.round(r() * 6);
+    rec.created_at = now - Math.round(r() * 20 * day) - i * 3600e3;
+    DB.recipes.push(rec);
+  });
+  for (let d = 0; d < 7; d++) {
+    const n = 4 + Math.round(r() * 14);
+    for (let j = 0; j < n; j++) {
+      const s = SEEDS[Math.floor(r() * SEEDS.length)];
+      const err = r() < .06;
+      DB.gens.push(Object.assign({ id: 'seed' + d + '-' + j, ts: now - d * day - Math.round(r() * 8e7), prompt: s[0], status: err ? 'error' : 'ok', error: err ? 'Невалидный JSON (повтор исчерпан)' : null, source: 'seed' }, fakeUsage({ prompt: s[0] })));
+    }
+  }
+  DB.save(); store.set('v', VERSION);
+}
+
+/* лимиты, избранное, пользователь */
+const getUser = () => store.get('user', null);
+function limitInfo() {
+  const d = today(); let l = store.get('limit', { date: d, count: 0 }); if (l.date !== d) l = { date: d, count: 0 };
+  const max = getUser() ? 30 : 5; return { ...l, max, left: Math.max(0, max - l.count) };
+}
+function consumeLimit() { const l = limitInfo(); store.set('limit', { date: l.date, count: l.count + 1 }); }
+const favs = () => store.get('favs', []);
+function toggleFav(slug) { const f = favs(); const i = f.indexOf(slug); if (i >= 0) f.splice(i, 1); else f.push(slug); store.set('favs', f); updateFavCount(); return i < 0; }
+function updateFavCount() { const n = favs().filter(s => DB.bySlug(s)).length; $('#favCount').textContent = n ? `(${n})` : ''; }
+
+/* =========================================================
+   UI-хелперы
+   ========================================================= */
+function toast(msg) { const el = document.createElement('div'); el.className = 'toast'; el.textContent = msg; $('#toast').append(el); setTimeout(() => el.remove(), 3200); }
+function fmtAmount(x, unit) {
+  if (x == null) return 'по вкусу';
+  if (unit === 'г' || unit === 'мл') { const r = x >= 100 ? Math.round(x / 10) * 10 : x >= 20 ? Math.round(x / 5) * 5 : Math.max(1, Math.round(x)); return `${r} ${unit}`; }
+  const q = Math.max(.25, Math.round(x * 4) / 4), whole = Math.floor(q), fr = q - whole;
+  return `${whole || ''}${{ .25: '¼', .5: '½', .75: '¾' }[fr] || ''} ${unit}`;
+}
+const totalMin = r => r.prep_minutes + r.cook_minutes;
+function dishImg(r, size = '') {
+  if (r.image_status !== 'ready') return `<div class="dish-img pending ${size}" id="img-${r.slug}" role="img" aria-label="Изображение блюда генерируется"><span>📸 Генерируем фото…</span></div>`;
+  const orbs = (r.emojis || []).slice(0, 4).map((e, i) => `<span class="orb o${i + 1}" aria-hidden="true">${e}</span>`).join('');
+  return `<div class="dish-img ${size}" id="img-${r.slug}" style="--h1:${r.hue};--h2:${(r.hue + 40) % 360}" role="img" aria-label="Иллюстрация блюда: ${esc(r.title)}"><div class="plate"><span class="main" aria-hidden="true">${r.emoji}</span></div>${orbs}</div>`;
+}
+const dietBadges = (r, n = 3) => r.diets.filter(d => d !== 'vegetarian' || !r.diets.includes('vegan')).slice(0, n).map(d => `<span class="badge">${DIETS[d]}</span>`).join('');
+function card(r) {
+  const fav = favs().includes(r.slug);
+  return `<article class="card"><a class="card-link" href="#/recipes/${r.slug}">${dishImg(r, 'sm')}<div class="card-body"><h3>${esc(r.title)}</h3>
+    <div class="card-meta"><span>⏱ ${totalMin(r)} мин</span><span>🔥 ${r.nutrition.kcal} ккал</span><span>${DIFF[r.difficulty]}</span></div><div class="badges">${dietBadges(r, 2)}</div></div></a>
+    <button class="fav-btn" type="button" data-fav="${r.slug}" aria-pressed="${fav}" aria-label="${fav ? 'Убрать из избранного' : 'В избранное'}">${fav ? '♥' : '♡'}</button></article>`;
+}
+const grid = list => list.length ? `<div class="grid">${list.map(card).join('')}</div>` : `<div class="empty"><b>🍽️</b>Здесь пока пусто</div>`;
+function setMeta(title, desc) { document.title = title; const m = $('meta[name="description"]'); if (m) m.setAttribute('content', desc); }
+function setLd(obj) { $('#ld').textContent = obj ? JSON.stringify(obj).replace(/</g, '\\u003c') : ''; }
+
+let hintTimer = null;
+const HINTS = ['Подбираю ингредиенты…', 'Проверяю диету и аллергены…', 'Считаю калории…', 'Расписываю шаги…', 'Сервирую тарелку…'];
+function showOverlay() { const o = $('#genOverlay'); o.hidden = false; let i = 0; $('#genHint').textContent = HINTS[0]; hintTimer = setInterval(() => { i = (i + 1) % HINTS.length; $('#genHint').textContent = HINTS[i]; }, 700); }
+function hideOverlay() { $('#genOverlay').hidden = true; clearInterval(hintTimer); }
+
+function scheduleImage(slug, delay = 2600) {
+  setTimeout(() => {
+    const r = DB.bySlug(slug); if (!r || r.image_status === 'ready') return;
+    r.image_status = 'ready'; DB.save();
+    const el = document.getElementById('img-' + slug);
+    if (el) { const tmp = document.createElement('div'); tmp.innerHTML = dishImg(r, el.classList.contains('sm') ? 'sm' : ''); const n = tmp.firstElementChild; n.classList.add('fade-in'); el.replaceWith(n); }
+  }, delay);
+}
+
+/* генерация: общая точка входа */
+async function runGeneration({ req, salt, parent = null, source = 'web' }) {
+  const lim = limitInfo();
+  if (source === 'web' && lim.left <= 0) return { error: 'limit' };
+  showOverlay();
+  const t0 = performance.now();
+  await sleep(1100 + Math.random() * 500);
+  salt = salt ?? Math.floor(Math.random() * 1e9);
+  const out = generateRecipe(req, salt);
+  hideOverlay();
+  const usage = fakeUsage(req);
+  if (out.error) { logGen({ prompt: req.prompt || req.tags.join(', '), status: 'error', error: out.error, source, ...usage, cost_usd: 0.002 }); return { error: out.error }; }
+  if (source === 'web') consumeLimit();
+  const rec = makeRecipe(out, req, salt, parent);
+  DB.recipes.push(rec);
+  logGen({ prompt: rec.source_prompt, recipe_slug: rec.slug, status: 'ok', source, user: getUser() ? getUser().email : null, ...usage, latency_ms: Math.round(performance.now() - t0) + usage.latency_ms });
+  scheduleImage(rec.slug);
+  return { recipe: rec };
+}
+function limitMessage() {
+  return `<div class="alert info">Лимит генераций на сегодня исчерпан (${limitInfo().max} в сутки). ${getUser() ? 'Возвращайтесь завтра!' : 'Зарегистрируйтесь — и получите 30 генераций в день.'}<br>${getUser() ? '' : '<a class="btn btn-sm btn-primary" href="#/account">Войти или зарегистрироваться</a>'}</div>`;
+}
+
+/* поиск с русской морфологией */
+function recipeStems(r) { return new Set(words(r.title + ' ' + r.description + ' ' + r.ingredients.map(i => i.name).join(' ') + ' ' + (r.source_prompt || '')).map(stem)); }
+function matchQuery(r, q) {
+  const qs = words(q).filter(w => w.length > 1).map(stem); if (!qs.length) return true;
+  const rs = [...recipeStems(r)];
+  return qs.every(s => rs.some(x => x.startsWith(s) || (s.length >= 4 && x.length >= 4 && s.startsWith(x))));
+}
+function findSimilarPrompt(prompt, tags) {
+  const a = new Set(words(prompt + ' ' + tags.join(' ')).filter(w => w.length > 2 && !['для','без','что','как','или','мне','хочу'].includes(w)).map(stem));
+  if (a.size < 2) return null;
+  let best = null, bestS = 0;
+  DB.published().forEach(r => {
+    const b = new Set(words(r.source_prompt).filter(w => w.length > 2).map(stem));
+    const inter = [...a].filter(x => b.has(x)).length; const s = inter / (a.size + b.size - inter);
+    if (s > bestS) { bestS = s; best = r; }
+  });
+  return bestS >= .7 ? best : null;
+}
+
+/* =========================================================
+   Страницы
+   ========================================================= */
+const main = $('#main');
+const DIET_KEYS = Object.keys(DIETS);
+const pill = (name, val, label, checked) => `<label class="check-pill"><input type="checkbox" name="${name}" value="${val}" ${checked ? 'checked' : ''}><span>${label}</span></label>`;
+const opts = (obj, sel, empty = 'Любой') => `<option value="">${empty}</option>` + Object.entries(obj).map(([k, v]) => `<option value="${k}" ${k === sel ? 'selected' : ''}>${Array.isArray(v) ? v[0] : v}</option>`).join('');
+
+function viewHome(q) {
+  const prefs = store.get('prefs', { diets: [], allergens: [], exclude: '' });
+  const hasPrefs = prefs.diets.length || prefs.allergens.length;
+  const lim = limitInfo();
+  const pub = DB.published();
+  const popular = [...pub].sort((a, b) => b.views - a.views).slice(0, 8);
+  const quick = pub.filter(r => totalMin(r) <= 30).sort((a, b) => b.helpful_count - a.helpful_count).slice(0, 4);
+  const fresh = [...pub].sort((a, b) => b.created_at - a.created_at).slice(0, 4);
+  const month = new Date().getMonth();
+  const seasonal = pub.filter(r => r.ingredients.some(i => (month >= 8 && month <= 10 ? ['pumpkin','apple','mushrooms','cabbage'] : month >= 5 && month <= 7 ? ['berries','tomato','cucumber','zucchini'] : ['cabbage','carrot','beef','lentils']).includes(i.key))).slice(0, 4);
+  setMeta('Шеф AI — рецепты от искусственного интеллекта', 'Опишите, что хотите приготовить, и получите рецепт с граммовкой, шагами и КБЖУ за секунды.');
+  setLd({ '@context': 'https://schema.org', '@type': 'WebSite', name: 'Шеф AI', potentialAction: { '@type': 'SearchAction', target: '#/recipes?q={query}', 'query-input': 'required name=query' } });
+  main.innerHTML = `
+  <section class="hero"><div class="wrap hero-inner">
+    <span class="eyebrow">✨ Рецепты, созданные искусственным интеллектом</span>
+    <h1>Что хотите приготовить?</h1>
+    <p class="lead">Опишите блюдо или перечислите продукты из холодильника — Шеф AI составит рецепт с граммовкой, шагами, временем и КБЖУ.</p>
+    <form id="genForm" class="gen-card" novalidate>
+      <div class="mode-switch" role="tablist" aria-label="Режим запроса">
+        <button type="button" role="tab" data-mode="text" aria-selected="true">✍️ Описать блюдо</button>
+        <button type="button" role="tab" data-mode="fridge" aria-selected="false">🧊 Из холодильника</button>
+      </div>
+      <div data-pane="text">
+        <label class="sr-only" for="prompt">Что хотите приготовить?</label>
+        <textarea id="prompt" maxlength="500" rows="3" placeholder="Например: быстрый ужин без глютена из курицы и овощей">${esc(q.p || '')}</textarea>
+        <div class="counter"><span id="cnt">0</span>/500</div>
+      </div>
+      <div data-pane="fridge" hidden>
+        <label class="field-label" for="tagInput">Какие продукты есть дома?</label>
+        <div class="tag-box" id="tagBox"><input id="tagInput" autocomplete="off" placeholder="Начните вводить: курица, кабачок, рис…" role="combobox" aria-expanded="false" aria-controls="suggest" aria-autocomplete="list"></div>
+        <div class="suggest-wrap"><ul id="suggest" class="suggest" role="listbox" hidden></ul></div>
+        <p class="note">Enter или запятая — добавить продукт. Можно ввести и то, чего нет в подсказках.</p>
+      </div>
+      <details class="params" ${hasPrefs ? 'open' : ''}>
+        <summary>Параметры <span class="muted" style="font-weight:500">(необязательно${hasPrefs ? ', подставлены из кабинета' : ''})</span></summary>
+        <div class="params-grid">
+          <label>Тип блюда<select name="dish_type">${opts(TYPES)}</select></label>
+          <label>Кухня<select name="cuisine">${opts(CUISINES, '', 'Любая')}</select></label>
+          <label>Время, до<select name="max_time"><option value="">Любое</option>${[15, 20, 30, 45, 60, 90].map(m => `<option value="${m}">${m} мин</option>`).join('')}</select></label>
+          <label>Порций<input type="number" name="servings" min="1" max="12" placeholder="2"></label>
+          <label>Сложность<select name="difficulty">${opts(DIFF, '', 'Любая')}</select></label>
+        </div>
+        <fieldset><legend>Диета</legend><div class="check-row">${DIET_KEYS.map(d => pill('diets', d, DIETS[d], prefs.diets.includes(d))).join('')}</div></fieldset>
+        <fieldset><legend>Исключить аллергены</legend><div class="check-row">${Object.entries(ALLERGENS).map(([k, v]) => pill('allergens', k, v, prefs.allergens.includes(k))).join('')}</div></fieldset>
+      </details>
+      <div class="gen-actions">
+        <button class="btn btn-primary btn-lg" type="submit">✨ Сгенерировать рецепт</button>
+        <span class="limit-note">Осталось генераций сегодня: <b>${lim.left}</b> из ${lim.max}</span>
+      </div>
+      <div id="genMsg" aria-live="polite"></div>
+    </form>
+    <div class="examples" aria-label="Примеры запросов">
+      ${['Быстрый ужин без глютена', 'Что приготовить из курицы, кабачка и риса', 'Веганский десерт', 'Завтрак до 15 минут', 'Суп на 4 порции', 'Кето-салат с креветками'].map(e => `<button type="button" class="chip" data-example="${esc(e)}">${esc(e)}</button>`).join('')}
+    </div>
+  </div></section>
+
+  <section class="wrap section" aria-labelledby="howH">
+    <h2 id="howH" class="sr-only">Как это работает</h2>
+    <div class="how">
+      <div><b>✍️</b><h3>Опишите запрос</h3><p class="muted">Блюдо, продукты, диета, аллергии, время и количество порций.</p></div>
+      <div><b>⚡</b><h3>Получите рецепт</h3><p class="muted">Ингредиенты с граммовкой, шаги с таймерами, КБЖУ и аллергены.</p></div>
+      <div><b>📚</b><h3>Каталог растёт</h3><p class="muted">Каждый рецепт получает постоянную страницу и попадает в каталог.</p></div>
+    </div>
+  </section>
+  ${section('🔥 Популярное', popular, '#/recipes?sort=popular')}
+  ${section('⏱ Быстро — до 30 минут', quick, '#/recipes?time=30')}
+  ${seasonal.length ? section('🍂 Сезонное', seasonal, '#/recipes') : ''}
+  <section class="wrap section"><div class="section-head"><h2>🥗 По диетам</h2></div>
+    <div class="check-row">${DIET_KEYS.map(d => `<a class="chip" href="#/recipes/diet/${d}">${DIETS[d]} · ${pub.filter(r => r.diets.includes(d)).length}</a>`).join('')}</div>
+  </section>
+  ${section('🆕 Новые рецепты', fresh, '#/recipes?sort=new')}`;
+  initGenForm(prefs);
+}
+const section = (title, list, href) => `<section class="wrap section"><div class="section-head"><h2>${title}</h2><a href="${href}">Смотреть все →</a></div>${grid(list)}</section>`;
+
+function initGenForm(prefs) {
+  const form = $('#genForm'); let mode = 'text'; const tags = [];
+  const prompt = $('#prompt'), cnt = $('#cnt');
+  const upd = () => cnt.textContent = prompt.value.length; upd(); prompt.addEventListener('input', upd);
+  $$('.mode-switch button', form).forEach(b => b.addEventListener('click', () => {
+    mode = b.dataset.mode;
+    $$('.mode-switch button', form).forEach(x => x.setAttribute('aria-selected', x === b));
+    $$('[data-pane]', form).forEach(p => p.hidden = p.dataset.pane !== mode);
+    (mode === 'text' ? prompt : $('#tagInput')).focus();
+  }));
+  // теги с автодополнением
+  const input = $('#tagInput'), box = $('#tagBox'), sug = $('#suggest');
+  const NAMES = [...new Set(Object.values(ING).filter(i => i.s.length && i.u !== null).map(i => i.tn))];
+  let active = -1, shown = [];
+  const renderTags = () => { $$('.tag', box).forEach(t => t.remove()); tags.forEach((t, i) => { const el = document.createElement('span'); el.className = 'tag'; el.innerHTML = `${esc(t)}<button type="button" aria-label="Удалить ${esc(t)}" data-i="${i}">×</button>`; box.insertBefore(el, input); }); };
+  const addTag = v => { v = v.trim().replace(/,$/, ''); if (v && !tags.some(t => t.toLowerCase() === v.toLowerCase()) && tags.length < 20) { tags.push(v); renderTags(); } input.value = ''; hideSug(); };
+  const hideSug = () => { sug.hidden = true; input.setAttribute('aria-expanded', 'false'); active = -1; };
+  const showSug = () => {
+    const v = norm(input.value.trim()); if (!v) return hideSug();
+    shown = NAMES.filter(n => norm(n).startsWith(v) || norm(n).includes(' ' + v)).filter(n => !tags.includes(n)).slice(0, 8);
+    if (!shown.length) return hideSug();
+    sug.innerHTML = shown.map((n, i) => `<li role="option" id="sg${i}" aria-selected="${i === active}" data-v="${esc(n)}">${esc(n)}</li>`).join('');
+    sug.hidden = false; input.setAttribute('aria-expanded', 'true');
+  };
+  box.addEventListener('click', e => { if (e.target.dataset.i != null) { tags.splice(+e.target.dataset.i, 1); renderTags(); } input.focus(); });
+  input.addEventListener('input', () => { if (input.value.includes(',')) input.value.split(',').slice(0, -1).forEach(addTag); active = -1; showSug(); });
+  input.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown' && !sug.hidden) { e.preventDefault(); active = Math.min(shown.length - 1, active + 1); showSug(); }
+    else if (e.key === 'ArrowUp' && !sug.hidden) { e.preventDefault(); active = Math.max(0, active - 1); showSug(); }
+    else if (e.key === 'Enter') { e.preventDefault(); const pickIdx = active >= 0 ? active : (!sug.hidden ? 0 : -1); if (pickIdx >= 0 && shown[pickIdx]) addTag(shown[pickIdx]); else if (input.value.trim()) addTag(input.value); }
+    else if (e.key === 'Backspace' && !input.value && tags.length) { tags.pop(); renderTags(); }
+    else if (e.key === 'Escape') hideSug();
+  });
+  sug.addEventListener('mousedown', e => { const li = e.target.closest('li'); if (li) { e.preventDefault(); addTag(li.dataset.v); } });
+  input.addEventListener('blur', () => setTimeout(hideSug, 100));
+  $$('[data-example]').forEach(b => b.addEventListener('click', () => { if (mode !== 'text') $('[data-mode="text"]', form).click(); prompt.value = b.dataset.example; upd(); prompt.focus(); }));
+  // отправка
+  const msg = $('#genMsg');
+  form.addEventListener('submit', async e => {
+    e.preventDefault(); msg.innerHTML = '';
+    if (input.value.trim()) addTag(input.value);
+    const fd = new FormData(form);
+    const params = { dish_type: fd.get('dish_type'), cuisine: fd.get('cuisine'), max_time: fd.get('max_time'), servings: fd.get('servings'), difficulty: fd.get('difficulty'), diets: fd.getAll('diets'), allergens: fd.getAll('allergens'), exclude: prefs.exclude || '' };
+    const p = mode === 'text' ? prompt.value.trim() : '';
+    const t = mode === 'fridge' ? [...tags] : [];
+    if (!p && !t.length) { msg.innerHTML = `<div class="alert">${mode === 'text' ? 'Опишите, что хотите приготовить.' : 'Добавьте хотя бы один продукт.'}</div>`; return; }
+    if (limitInfo().left <= 0) { msg.innerHTML = limitMessage(); return; }
+    const go = async () => {
+      const req = parseRequest(p, t, params);
+      const res = await runGeneration({ req });
+      if (res.error === 'limit') msg.innerHTML = limitMessage();
+      else if (res.error) msg.innerHTML = `<div class="alert">⚠️ ${esc(res.error)}</div>`;
+      else location.hash = `#/recipes/${res.recipe.slug}?new=1`;
+    };
+    const dup = !params.diets.length && !params.allergens.length && findSimilarPrompt(p, t);
+    if (dup) {
+      msg.innerHTML = `<div class="alert info">💡 Похожий рецепт уже есть в каталоге: <b>${esc(dup.title)}</b>. Откройте его — это сэкономит генерацию.<br>
+        <a class="btn btn-sm btn-primary" href="#/recipes/${dup.slug}">Открыть рецепт</a> <button type="button" class="btn btn-sm" id="genAnyway">Всё равно сгенерировать новый</button></div>`;
+      $('#genAnyway').addEventListener('click', go);
+      return;
+    }
+    go();
+  });
+}
+
+/* ---------- каталог ---------- */
+const PER_PAGE = 12;
+function viewCatalog(q, preset = {}) {
+  const f = Object.assign({ q: '', ing: '', type: '', cuisine: '', time: '', diet: '', kcal: '', difficulty: '', sort: 'new', page: '1' }, q, preset);
+  let heading = 'Каталог рецептов', seo = '';
+  if (preset.diet) { heading = `Рецепты: ${DIETS[preset.diet]}`; seo = `Подборка рецептов «${DIETS[preset.diet].toLowerCase()}», созданных Шеф AI. Каждый рецепт проверен на соответствие диете по стоп-листам ингредиентов, а КБЖУ рассчитано на порцию.`; }
+  if (preset.cuisine) { heading = `${CUISINES[preset.cuisine][0]} кухня`; seo = `Рецепты ${CUISINES[preset.cuisine][1]} кухни: от быстрых будних ужинов до блюд для выходных. Изменяйте количество порций — граммовка пересчитается автоматически.`; }
+  if (preset.type) { heading = `${TYPES[preset.type]}: рецепты`; seo = `Все рецепты в категории «${TYPES[preset.type].toLowerCase()}». Не нашли подходящий — сгенерируйте новый под свои продукты и ограничения.`; }
+  setMeta(`${heading} — Шеф AI`, seo || 'Каталог AI-рецептов с фильтрами по диете, кухне, времени и калорийности.');
+  setLd(null);
+  const sel = (name, obj, empty, lock) => `<label>${{ type: 'Тип блюда', cuisine: 'Кухня', diet: 'Диета', difficulty: 'Сложность' }[name]}<select name="${name}" ${lock ? 'disabled' : ''}>${opts(obj, f[name], empty)}</select></label>`;
+  main.innerHTML = `<div class="wrap">
+    <nav class="crumbs" aria-label="Хлебные крошки"><a href="#/">Главная</a>›<a href="#/recipes">Каталог</a>${preset.diet || preset.cuisine || preset.type ? '›<span>' + esc(heading) + '</span>' : ''}</nav>
+    <h1 style="font-size:clamp(1.6rem,3.5vw,2.4rem)">${esc(heading)}</h1>
+    ${seo ? `<div class="seo-text">${esc(seo)}</div>` : ''}
+    <div class="catalog">
+      <details class="filters" open id="filtersBox"><summary>Фильтры</summary>
+        <form id="filters" style="display:grid;gap:12px;margin-top:12px">
+          ${sel('type', TYPES, 'Любой', preset.type)}${sel('cuisine', CUISINES, 'Любая', preset.cuisine)}
+          <label>Время, до<select name="time"><option value="">Любое</option>${[15, 20, 30, 45, 60].map(m => `<option value="${m}" ${f.time == m ? 'selected' : ''}>${m} мин</option>`).join('')}</select></label>
+          ${sel('diet', DIETS, 'Любая', preset.diet)}
+          <label>Калорийность, до<select name="kcal"><option value="">Любая</option>${[200, 300, 400, 500, 700].map(m => `<option value="${m}" ${f.kcal == m ? 'selected' : ''}>${m} ккал</option>`).join('')}</select></label>
+          ${sel('difficulty', DIFF, 'Любая')}
+          <button type="button" class="btn btn-sm btn-ghost" id="resetF">Сбросить фильтры</button>
+        </form>
+      </details>
+      <div>
+        <form class="searchbar" id="searchForm" role="search">
+          <label class="sr-only" for="q">Поиск по названию и ингредиентам</label>
+          <input type="search" id="q" name="q" placeholder="Поиск: «курицей», «суп», «тыква»…" value="${esc(f.q)}">
+          <label class="sr-only" for="ing">Поиск по ингредиентам</label>
+          <input type="search" id="ing" name="ing" placeholder="Ингредиенты через запятую" value="${esc(f.ing)}">
+        </form>
+        <div class="toolbar"><span id="found"></span>
+          <label>Сортировка: <select id="sort" style="width:auto;padding:6px 10px">
+            <option value="new" ${f.sort === 'new' ? 'selected' : ''}>Новые</option><option value="popular" ${f.sort === 'popular' ? 'selected' : ''}>Популярные</option><option value="fast" ${f.sort === 'fast' ? 'selected' : ''}>Быстрые</option>
+          </select></label></div>
+        <div id="results"></div>
+      </div>
+    </div></div>`;
+  if (matchMedia('(max-width:860px)').matches) $('#filtersBox').open = false;
+  const state = { ...f };
+  const run = (resetPage = true) => {
+    const fd = new FormData($('#filters'));
+    ['type', 'cuisine', 'time', 'diet', 'kcal', 'difficulty'].forEach(k => { if (!preset[k]) state[k] = fd.get(k) || ''; });
+    state.q = $('#q').value.trim(); state.ing = $('#ing').value.trim(); state.sort = $('#sort').value;
+    if (resetPage) state.page = '1';
+    renderResults(state, preset);
+  };
+  $('#filters').addEventListener('change', () => run());
+  $('#sort').addEventListener('change', () => run());
+  let deb; $('#searchForm').addEventListener('input', () => { clearTimeout(deb); deb = setTimeout(run, 250); });
+  $('#searchForm').addEventListener('submit', e => { e.preventDefault(); run(); });
+  $('#resetF').addEventListener('click', () => { $$('#filters select:not([disabled])').forEach(s => s.value = ''); run(); });
+  renderResults(state, preset);
+}
+function renderResults(s, preset) {
+  let list = DB.published();
+  if (s.type) list = list.filter(r => r.dish_type === s.type);
+  if (s.cuisine) list = list.filter(r => r.cuisine === s.cuisine);
+  if (s.time) list = list.filter(r => totalMin(r) <= +s.time);
+  if (s.diet) list = list.filter(r => r.diets.includes(s.diet));
+  if (s.kcal) list = list.filter(r => r.nutrition.kcal <= +s.kcal);
+  if (s.difficulty) list = list.filter(r => r.difficulty === s.difficulty);
+  if (s.q) list = list.filter(r => matchQuery(r, s.q));
+  let ingKeys = [];
+  if (s.ing) {
+    ingKeys = [...new Set(s.ing.split(/[,;]/).map(x => findIngredients(x)[0]).filter(Boolean))];
+    list = list.map(r => [r, ingKeys.filter(k => r.ingredients.some(i => i.key === k)).length]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]).map(x => x[0]);
+  }
+  if (!s.ing) list.sort(s.sort === 'popular' ? (a, b) => b.views - a.views : s.sort === 'fast' ? (a, b) => totalMin(a) - totalMin(b) : (a, b) => b.created_at - a.created_at);
+  const pages = Math.max(1, Math.ceil(list.length / PER_PAGE)); const page = Math.min(pages, Math.max(1, +s.page || 1));
+  const shown = list.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+  // сохраняем фильтры в URL
+  const base = location.hash.split('?')[0];
+  const qs = new URLSearchParams(Object.entries(s).filter(([k, v]) => v && !preset[k] && !(k === 'sort' && v === 'new') && !(k === 'page' && v === '1'))).toString();
+  history.replaceState(null, '', base + (qs ? '?' + qs : ''));
+  $('#found').textContent = `Найдено рецептов: ${list.length}`;
+  const ingText = s.ing ? s.ing : '';
+  $('#results').innerHTML = grid(shown) +
+    (pages > 1 ? `<nav class="pager" aria-label="Страницы">${Array.from({ length: pages }, (_, i) => `<button class="btn btn-sm" data-page="${i + 1}" ${i + 1 === page ? 'aria-current="page" aria-pressed="true"' : ''}>${i + 1}</button>`).join('')}</nav>` : '') +
+    (s.ing || s.q ? `<div class="cta-gen"><div><b>Не нашли подходящий рецепт?</b><br><span class="muted">Шеф AI придумает новый${ingText ? ' из: ' + esc(ingText) : ' по запросу «' + esc(s.q) + '»'}.</span></div><button class="btn btn-primary" id="genFromSearch">✨ Сгенерировать</button></div>` : '');
+  $$('[data-page]').forEach(b => b.addEventListener('click', () => { s.page = b.dataset.page; renderResults(s, preset); window.scrollTo({ top: 0, behavior: 'smooth' }); }));
+  const g = $('#genFromSearch');
+  if (g) g.addEventListener('click', async () => {
+    const tags = s.ing ? s.ing.split(/[,;]/).map(x => x.trim()).filter(Boolean) : [];
+    const req = parseRequest(s.ing ? '' : s.q, tags, { diets: s.diet ? [s.diet] : [], dish_type: s.type, cuisine: s.cuisine, max_time: s.time });
+    const res = await runGeneration({ req });
+    if (res.error === 'limit') $('#results').insertAdjacentHTML('beforeend', limitMessage());
+    else if (res.error) toast('⚠️ ' + res.error);
+    else location.hash = `#/recipes/${res.recipe.slug}?new=1`;
+  });
+}
+
+/* ---------- страница рецепта ---------- */
+const timers = {};
+function beep() { try { const a = new (window.AudioContext || window.webkitAudioContext)(); [0, .35, .7].forEach(t => { const o = a.createOscillator(), g = a.createGain(); o.frequency.value = 880; o.connect(g); g.connect(a.destination); g.gain.setValueAtTime(.2, a.currentTime + t); o.start(a.currentTime + t); o.stop(a.currentTime + t + .2); }); } catch (e) {} }
+const fmtTime = s => { const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(x).padStart(2, '0'); };
+
+function viewRecipe(slug, q) {
+  const r = DB.bySlug(slug);
+  if (!r) return view404();
+  const streaming = q.new === '1';
+  if (!sessionStorage.getItem('viewed:' + slug)) { r.views++; DB.save(); try { sessionStorage.setItem('viewed:' + slug, '1'); } catch (e) {} }
+  const fav = favs().includes(slug);
+  const chk = store.get('chk:' + slug, { i: [], s: [] });
+  const voted = store.get('voted', {})[slug];
+  const parent = r.parent_recipe_id && DB.recipes.find(x => x.id === r.parent_recipe_id);
+  setMeta(`${r.title} — рецепт от Шеф AI`, r.description);
+  setLd({
+    '@context': 'https://schema.org', '@type': 'Recipe', name: r.title, description: r.description, author: { '@type': 'Organization', name: 'Шеф AI' },
+    datePublished: new Date(r.created_at).toISOString().slice(0, 10), recipeCuisine: CUISINES[r.cuisine] ? CUISINES[r.cuisine][0] : r.cuisine, recipeCategory: TYPES[r.dish_type],
+    prepTime: `PT${r.prep_minutes}M`, cookTime: `PT${r.cook_minutes}M`, totalTime: `PT${totalMin(r)}M`, recipeYield: `${r.servings} порц.`, keywords: [r.title, ...r.diets.map(d => DIETS[d])].join(', '),
+    image: [`https://chef-ai.example/images/${r.slug}.jpg`],
+    suitableForDiet: r.diets.filter(d => SCHEMA_DIET[d]).map(d => 'https://schema.org/' + SCHEMA_DIET[d]),
+    recipeIngredient: r.ingredients.map(i => `${i.amount == null ? '' : fmtAmount(i.amount, i.unit) + ' '}${i.name}`.trim()),
+    recipeInstructions: r.steps.map((s, i) => ({ '@type': 'HowToStep', position: i + 1, text: s.text })),
+    nutrition: { '@type': 'NutritionInformation', calories: `${r.nutrition.kcal} ккал`, proteinContent: `${r.nutrition.protein_g} г`, fatContent: `${r.nutrition.fat_g} г`, carbohydrateContent: `${r.nutrition.carbs_g} г`, servingSize: '1 порция' },
+  });
+  const groups = [];
+  r.ingredients.forEach((ing, idx) => { let g = groups.find(x => x.name === ing.group); if (!g) groups.push(g = { name: ing.group, items: [] }); g.items.push([ing, idx]); });
+  groups.sort((a, b) => (a.name ? 1 : 0) - (b.name ? 1 : 0));
+  const similar = DB.published().filter(x => x.slug !== slug).map(x => [x, (x.dish_type === r.dish_type ? 2 : 0) + (x.cuisine === r.cuisine ? 1 : 0) + x.diets.filter(d => r.diets.includes(d)).length * .5 + x.ingredients.filter(i => i.key && r.ingredients.some(j => j.key === i.key && !['oil', 'salt', 'garlic', 'onion', 'greens'].includes(i.key))).length * 1.5]).sort((a, b) => b[1] - a[1]).slice(0, 4).map(x => x[0]);
+  const S = 'stream-hide';
+  main.innerHTML = `<div class="wrap">
+    <nav class="crumbs" aria-label="Хлебные крошки"><a href="#/">Главная</a>›<a href="#/recipes">Каталог</a>›<a href="#/recipes/type/${r.dish_type}">${TYPES[r.dish_type]}</a>›<span>${esc(r.title)}</span></nav>
+    ${r.status !== 'published' ? `<div class="hidden-note">Этот рецепт ${r.status === 'flagged' ? 'отправлен на модерацию из-за жалоб' : 'скрыт модератором'} и не отображается в каталоге.</div>` : ''}
+    <div class="recipe-hero">
+      <div>
+        <div class="badges" style="margin-bottom:10px"><span class="badge neutral">${TYPES[r.dish_type]}</span>${CUISINES[r.cuisine] ? `<a class="badge neutral" href="#/recipes/cuisine/${r.cuisine}" style="text-decoration:none">${CUISINES[r.cuisine][0]} кухня</a>` : ''}${dietBadges(r, 6)}</div>
+        <h1 id="rTitle" ${streaming ? 'class="caret"' : ''}>${streaming ? '' : esc(r.title)}</h1>
+        <p class="desc ${streaming ? S : ''}" data-st>${esc(r.description)}</p>
+        ${parent ? `<p class="note">Новая версия рецепта <a href="#/recipes/${parent.slug}">«${esc(parent.title)}»</a> · уточнение: ${esc(r.source_prompt.split('→').pop().trim())}</p>` : ''}
+        <div class="meta ${streaming ? S : ''}" data-st>
+          <div><small>Подготовка</small><b>${r.prep_minutes} мин</b></div><div><small>Готовка</small><b>${r.cook_minutes} мин</b></div>
+          <div><small>Всего</small><b>${totalMin(r)} мин</b></div><div><small>Сложность</small><b>${DIFF[r.difficulty]}</b></div>
+          <div><small>Порции</small><b>${r.servings}</b></div><div><small>Калории</small><b>${r.nutrition.kcal} ккал</b></div>
+        </div>
+        <div class="actions">
+          <button class="btn" type="button" data-fav="${slug}" aria-pressed="${fav}">${fav ? '♥ В избранном' : '♡ В избранное'}</button>
+          <button class="btn" type="button" id="shareBtn">↗ Поделиться</button>
+          <button class="btn" type="button" onclick="window.print()">🖨 Распечатать</button>
+          <button class="btn" type="button" id="variantBtn">🔄 Другой вариант</button>
+          <button class="btn" type="button" id="refineBtn" aria-expanded="false" aria-controls="refineBox">✏️ Изменить</button>
+        </div>
+        <div class="refine-box" id="refineBox" hidden>
+          <form id="refineForm"><label class="sr-only" for="refineInput">Как изменить рецепт</label>
+            <input type="text" id="refineInput" maxlength="200" placeholder="Например: сделай острее, без духовки, больше белка">
+            <button class="btn btn-primary" type="submit">Применить</button></form>
+          <div class="refine-chips">${['Сделай острее', 'Без духовки', 'Быстрее', 'Больше белка', 'Без лука', 'Без глютена', 'Веганская версия', 'На 4 порции'].map(x => `<button type="button" class="chip" data-refine="${x}">${x}</button>`).join('')}</div>
+        </div>
+        ${streaming ? '<div class="stream-status" id="streamStatus" role="status"><span class="pan" style="font-size:1.3rem">🍳</span><span id="streamText">Пишу рецепт…</span></div>' : ''}
+      </div>
+      <div>${dishImg(r)}</div>
+    </div>
+    <div class="ai-banner" role="note"><span aria-hidden="true">🤖</span><div><b>Рецепт создан искусственным интеллектом.</b> Проверяйте состав на аллергены самостоятельно, КБЖУ рассчитано приблизительно. Соблюдайте безопасные температуры приготовления.</div></div>
+
+    <div class="recipe-body">
+      <div>
+        <section class="panel" aria-labelledby="ingH">
+          <h2 id="ingH" style="font-size:1.25rem">Ингредиенты</h2>
+          <div class="servings no-print"><span class="muted" style="font-weight:700">Порции:</span>
+            <button class="btn btn-sm" type="button" id="sMinus" aria-label="Меньше порций">−</button><output id="sVal" aria-live="polite">${r.servings}</output>
+            <button class="btn btn-sm" type="button" id="sPlus" aria-label="Больше порций">+</button></div>
+          ${groups.map(g => `${g.name ? `<div class="ing-group">${esc(g.name)}</div>` : ''}<ul class="check-list">${g.items.map(([ing, idx]) => `<li class="${streaming ? S : ''}" data-st-ing>
+            <input type="checkbox" id="ci${idx}" data-ci="${idx}" ${chk.i.includes(idx) ? 'checked' : ''}><label for="ci${idx}"><span class="amt" data-amt="${idx}">${fmtAmount(ing.amount, ing.unit)}</span> ${esc(ing.name)}</label></li>`).join('')}</ul>`).join('')}
+        </section>
+        <section class="panel ${streaming ? S : ''}" data-st-late aria-labelledby="nutH">
+          <h2 id="nutH" style="font-size:1.1rem">КБЖУ на порцию</h2>
+          <div class="nutri"><div><b>${r.nutrition.kcal}</b><small>ккал</small></div><div><b>${r.nutrition.protein_g}</b><small>белки, г</small></div><div><b>${r.nutrition.fat_g}</b><small>жиры, г</small></div><div><b>${r.nutrition.carbs_g}</b><small>углеводы, г</small></div></div>
+          <p class="note">Расчёт приблизительный, по справочным значениям продуктов.</p>
+        </section>
+        <section class="panel ${streaming ? S : ''}" data-st-late aria-labelledby="algH">
+          <h2 id="algH" style="font-size:1.1rem">Аллергены</h2>
+          ${r.allergens.length ? `<div class="badges">${r.allergens.map(a => `<span class="badge warn">${ALLERGENS[a]}</span>`).join('')}</div>` : '<p class="muted" style="margin:0">Основные аллергены не обнаружены.</p>'}
+          <p class="note">Определены автоматически. Проверяйте маркировку продуктов.</p>
+        </section>
+      </div>
+      <div>
+        <section class="panel" aria-labelledby="stepH">
+          <h2 id="stepH" style="font-size:1.25rem">Приготовление</h2>
+          <ol class="check-list steps">${r.steps.map((s, i) => `<li class="${streaming ? S : ''}" data-st-step>
+            <span class="step-num" aria-hidden="true">${i + 1}</span>
+            <div class="step-text"><input type="checkbox" id="cs${i}" data-cs="${i}" ${chk.s.includes(i) ? 'checked' : ''} style="float:right;margin-left:10px" aria-label="Шаг ${i + 1} выполнен"><label for="cs${i}">${esc(s.text)}</label>
+            ${s.timer_seconds ? `<div><button type="button" class="btn btn-sm timer-btn" data-timer="${i}" data-sec="${s.timer_seconds}">⏱ ${fmtTime(s.timer_seconds)}</button></div>` : ''}</div></li>`).join('')}</ol>
+        </section>
+        <section class="panel ${streaming ? S : ''}" data-st-late>
+          <h2 style="font-size:1.1rem">👨‍🍳 Советы шефа</h2><ul class="tips">${r.tips.map(t => `<li>${esc(t)}</li>`).join('')}</ul>
+          ${r.substitutions.length ? `<h3 style="margin-top:14px">Чем заменить</h3><ul class="tips">${r.substitutions.map(s => `<li><b>${esc(s.ingredient)}</b> → ${esc(s.replacement)}</li>`).join('')}</ul>` : ''}
+        </section>
+        <section class="panel no-print ${streaming ? S : ''}" data-st-late aria-labelledby="fbH">
+          <h2 id="fbH" style="font-size:1.1rem">Рецепт был полезен?</h2>
+          <div class="feedback">
+            <button class="btn" type="button" id="fbYes" ${voted ? 'disabled' : ''}>👍 Полезно · ${r.helpful_count}</button>
+            <button class="btn" type="button" id="fbNo" ${voted ? 'disabled' : ''}>👎 Не полезно · ${r.unhelpful_count}</button>
+            <button class="btn btn-ghost btn-sm" type="button" id="reportBtn">⚑ Сообщить об ошибке</button>
+          </div>
+          ${voted ? '<p class="note">Спасибо, ваша оценка учтена.</p>' : ''}
+          <div id="fbForm"></div>
+        </section>
+      </div>
+    </div>
+    ${similar.length ? `<section class="section no-print"><div class="section-head"><h2>Похожие рецепты</h2></div>${grid(similar)}</section>` : ''}
+    <p class="note">Модель: ${esc(r.model_version)} · Запрос: «${esc(r.source_prompt)}» · Создан ${new Date(r.created_at).toLocaleDateString('ru-RU')}</p>
+  </div>`;
+
+  // пересчёт порций
+  let sv = r.servings;
+  const rescale = () => { $('#sVal').textContent = sv; r.ingredients.forEach((ing, i) => { const el = $(`[data-amt="${i}"]`); if (el) el.textContent = fmtAmount(ing.amount == null ? null : ing.amount * sv / r.servings, ing.unit); }); };
+  $('#sMinus').addEventListener('click', () => { if (sv > 1) { sv--; rescale(); } });
+  $('#sPlus').addEventListener('click', () => { if (sv < 24) { sv++; rescale(); } });
+  // чекбоксы
+  main.addEventListener('change', e => {
+    const t = e.target; if (t.dataset.ci == null && t.dataset.cs == null) return;
+    const c = store.get('chk:' + slug, { i: [], s: [] }); const key = t.dataset.ci != null ? 'i' : 's'; const v = +(t.dataset.ci ?? t.dataset.cs);
+    c[key] = t.checked ? [...new Set([...c[key], v])] : c[key].filter(x => x !== v); store.set('chk:' + slug, c);
+  });
+  // таймеры
+  $$('[data-timer]').forEach(b => {
+    const id = slug + ':' + b.dataset.timer;
+    const paint = () => { const t = timers[id]; b.classList.toggle('running', !!t); b.textContent = t ? `⏸ ${fmtTime(t.left)}` : `⏱ ${fmtTime(+b.dataset.sec)}`; };
+    if (timers[id]) { timers[id].btn = b; paint(); }
+    b.addEventListener('click', () => {
+      if (timers[id]) { clearInterval(timers[id].iv); delete timers[id]; paint(); return; }
+      const t = timers[id] = { left: +b.dataset.sec, btn: b };
+      t.iv = setInterval(() => { t.left--; if (document.body.contains(t.btn)) { t.btn.textContent = `⏸ ${fmtTime(t.left)}`; } if (t.left <= 0) { clearInterval(t.iv); delete timers[id]; beep(); toast(`⏰ Таймер шага ${+b.dataset.timer + 1} завершён: «${r.title}»`); if (document.body.contains(t.btn)) paint(); } }, 1000);
+      paint();
+    });
+  });
+  // действия
+  $('#shareBtn').addEventListener('click', async () => {
+    const url = location.href.split('?')[0];
+    if (navigator.share) { try { await navigator.share({ title: r.title, text: r.description, url }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+    try { await navigator.clipboard.writeText(url); toast('Ссылка скопирована'); } catch (e) { toast('Ссылка: ' + url); }
+  });
+  const regen = async (req, salt, parentId, okMsg) => {
+    if (limitInfo().left <= 0) { $('#fbForm').innerHTML = ''; main.querySelector('.recipe-hero').insertAdjacentHTML('afterend', limitMessage()); return; }
+    const res = await runGeneration({ req, salt, parent: parentId });
+    if (res.error === 'limit') toast('Лимит генераций исчерпан');
+    else if (res.error) toast('⚠️ ' + res.error);
+    else { toast(okMsg); location.hash = `#/recipes/${res.recipe.slug}?new=1`; }
+  };
+  $('#variantBtn').addEventListener('click', () => regen(r.req, Math.floor(Math.random() * 1e9), null, 'Готов новый вариант рецепта'));
+  $('#refineBtn').addEventListener('click', e => { const box = $('#refineBox'); box.hidden = !box.hidden; e.currentTarget.setAttribute('aria-expanded', !box.hidden); if (!box.hidden) $('#refineInput').focus(); });
+  const refine = text => { if (!text.trim()) return; regen(applyRefine(r.req, text), r.salt, r.id, 'Создана новая версия рецепта'); };
+  $('#refineForm').addEventListener('submit', e => { e.preventDefault(); refine($('#refineInput').value); });
+  $$('[data-refine]').forEach(b => b.addEventListener('click', () => refine(b.dataset.refine)));
+  // обратная связь
+  const vote = (helpful, reason = null, comment = '') => {
+    const v = store.get('voted', {}); v[slug] = helpful ? 'yes' : 'no'; store.set('voted', v);
+    if (helpful) r.helpful_count++; else r.unhelpful_count++;
+    r.feedback.push({ is_helpful: helpful, reason, comment, created_at: Date.now() });
+    if (r.unhelpful_count >= 3 && r.unhelpful_count > r.helpful_count && r.status === 'published') r.status = 'flagged';
+    DB.save(); toast('Спасибо за оценку!'); viewRecipe(slug, {});
+  };
+  $('#fbYes').addEventListener('click', () => vote(true));
+  const reasonForm = (report) => {
+    $('#fbForm').innerHTML = `<form class="reason-form" id="reasonForm"><fieldset><legend>${report ? 'Что не так с рецептом?' : 'Почему не полезно? (необязательно)'}</legend><div class="check-row">
+      ${['Ошибка в рецепте', 'Невкусно', 'Не соответствует запросу', 'Неверные аллергены или КБЖУ', 'Опасные рекомендации'].map((x, i) => `<label class="check-pill"><input type="radio" name="reason" value="${x}" ${i === 0 && report ? 'checked' : ''}><span>${x}</span></label>`).join('')}</div></fieldset>
+      <label class="sr-only" for="fbComment">Комментарий</label><textarea id="fbComment" rows="2" maxlength="500" placeholder="Комментарий (необязательно)" style="min-height:60px;font-size:.95rem"></textarea>
+      <div><button class="btn btn-primary btn-sm" type="submit">Отправить</button></div></form>`;
+    $('#reasonForm').addEventListener('submit', e => {
+      e.preventDefault(); const fd = new FormData(e.target); const reason = fd.get('reason'); const comment = $('#fbComment').value.trim();
+      if (report) { r.feedback.push({ is_helpful: null, reason: 'Жалоба: ' + (reason || 'без причины'), comment, created_at: Date.now() }); r.reports = (r.reports || 0) + 1; if (r.reports >= 2 && r.status === 'published') r.status = 'flagged'; DB.save(); toast('Жалоба отправлена модератору'); $('#fbForm').innerHTML = '<p class="note">Спасибо! Модератор проверит рецепт.</p>'; }
+      else vote(false, reason, comment);
+    });
+  };
+  $('#fbNo').addEventListener('click', () => reasonForm(false));
+  $('#reportBtn').addEventListener('click', () => reasonForm(true));
+
+  if (streaming) streamIn(r);
+}
+async function streamIn(r) {
+  const title = $('#rTitle'), status = $('#streamText');
+  const show = el => { el.classList.remove('stream-hide'); el.classList.add('stream-show'); };
+  status.textContent = 'Придумываю название…';
+  for (let i = 1; i <= r.title.length; i++) { if (!document.body.contains(title)) return; title.textContent = r.title.slice(0, i); await sleep(22); }
+  title.classList.remove('caret');
+  $$('[data-st]').forEach(show);
+  status.textContent = 'Подбираю ингредиенты…';
+  for (const el of $$('[data-st-ing]')) { if (!document.body.contains(el)) return; show(el); await sleep(110); }
+  status.textContent = 'Расписываю шаги…';
+  for (const el of $$('[data-st-step]')) { if (!document.body.contains(el)) return; show(el); await sleep(260); }
+  status.textContent = 'Считаю КБЖУ и проверяю аллергены…';
+  await sleep(250);
+  $$('[data-st-late]').forEach(show);
+  const box = $('#streamStatus'); if (box) { box.innerHTML = '✅ Рецепт готов и сохранён — у него есть постоянная ссылка.'; setTimeout(() => box.remove(), 4000); }
+  history.replaceState(null, '', '#/recipes/' + r.slug);
+}
+
+/* ---------- избранное ---------- */
+function viewFavorites() {
+  setMeta('Избранное — Шеф AI', 'Ваши сохранённые рецепты'); setLd(null);
+  const list = favs().map(s => DB.bySlug(s)).filter(Boolean);
+  main.innerHTML = `<div class="wrap section"><div class="section-head"><h1 style="font-size:clamp(1.6rem,3.5vw,2.4rem);margin:0">♥ Избранное</h1>
+    <span class="muted">${getUser() ? 'Синхронизировано с аккаунтом ' + esc(getUser().email) : 'Хранится в этом браузере. Войдите, чтобы перенести в аккаунт.'}</span></div>
+    ${list.length ? grid(list) : `<div class="empty"><b>♡</b>Вы пока ничего не добавили. Нажмите на сердечко у рецепта.<br><br><a class="btn btn-primary" href="#/recipes">Перейти в каталог</a></div>`}</div>`;
+}
+
+/* ---------- кабинет ---------- */
+function viewAccount() {
+  setMeta('Личный кабинет — Шеф AI', 'Профиль, предпочтения и история генераций'); setLd(null);
+  const u = getUser();
+  if (!u) {
+    main.innerHTML = `<div class="wrap section" style="max-width:520px">
+      <h1 style="font-size:2rem">Вход в Шеф AI</h1>
+      <p class="muted">После входа: 30 генераций в день вместо 5, избранное и предпочтения сохраняются в аккаунте.</p>
+      <div class="panel"><form id="loginForm" style="display:grid;gap:10px">
+        <label class="field-label" for="email">Email</label><input type="email" id="email" required placeholder="you@example.com" autocomplete="email">
+        <button class="btn btn-primary" type="submit">Получить ссылку для входа</button></form>
+        <div id="loginMsg" aria-live="polite"></div>
+        <div style="text-align:center;margin:14px 0;color:var(--muted)">или</div>
+        <button class="btn" style="width:100%" id="googleBtn" type="button"><b style="color:#4285F4">G</b> Войти через Google</button>
+        <p class="note">Демо-режим: настоящая отправка magic link и Google OAuth требуют сервера (Auth.js). Здесь вход имитируется локально.</p>
+      </div></div>`;
+    const login = (email, name) => { store.set('user', { email, name, since: Date.now() }); toast(`Добро пожаловать! Избранное (${favs().length}) перенесено в аккаунт.`); route(); };
+    $('#loginForm').addEventListener('submit', e => {
+      e.preventDefault(); const em = $('#email').value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { $('#loginMsg').innerHTML = '<div class="alert">Введите корректный email.</div>'; return; }
+      $('#loginMsg').innerHTML = `<div class="alert info">📧 Ссылка для входа отправлена на ${esc(em)} (демо).<br><button class="btn btn-sm btn-primary" id="magic" type="button">Открыть ссылку из письма</button></div>`;
+      $('#magic').addEventListener('click', () => login(em, em.split('@')[0]));
+    });
+    $('#googleBtn').addEventListener('click', () => login('google.user@example.com', 'Пользователь Google'));
+    return;
+  }
+  const prefs = store.get('prefs', { diets: [], allergens: [], exclude: '' });
+  const hist = DB.gens.filter(g => g.source === 'web').slice(-20).reverse();
+  const lim = limitInfo();
+  main.innerHTML = `<div class="wrap section">
+    <div class="section-head"><h1 style="font-size:clamp(1.6rem,3.5vw,2.4rem);margin:0">Личный кабинет</h1><button class="btn btn-sm" id="logout">Выйти</button></div>
+    <p class="muted">${esc(u.name)} · ${esc(u.email)} · генераций сегодня: ${lim.count} из ${lim.max}</p>
+    <div class="two-col">
+      <section class="panel"><h2 style="font-size:1.2rem">Мои предпочтения</h2><p class="note" style="margin-top:0">Автоматически подставляются в форму генерации.</p>
+        <form id="prefsForm">
+          <fieldset><legend>Диета</legend><div class="check-row">${DIET_KEYS.map(d => pill('diets', d, DIETS[d], prefs.diets.includes(d))).join('')}</div></fieldset>
+          <fieldset><legend>Аллергены</legend><div class="check-row">${Object.entries(ALLERGENS).map(([k, v]) => pill('allergens', k, v, prefs.allergens.includes(k))).join('')}</div></fieldset>
+          <label class="field-label" for="exclude">Исключённые продукты</label><input type="text" id="exclude" name="exclude" value="${esc(prefs.exclude)}" placeholder="Например: лук, грибы">
+          <div style="margin-top:12px"><button class="btn btn-primary" type="submit">Сохранить</button></div>
+        </form></section>
+      <section class="panel"><h2 style="font-size:1.2rem">История генераций</h2>
+        ${hist.length ? `<ul class="check-list">${hist.map(g => `<li><div style="flex:1">${g.status === 'ok' && DB.bySlug(g.recipe_slug) ? `<a href="#/recipes/${g.recipe_slug}">${esc(DB.bySlug(g.recipe_slug).title)}</a>` : `<span class="badge red">ошибка</span> ${esc(g.error || '')}`}<div class="note" style="margin:2px 0 0">«${esc(g.prompt)}» · ${new Date(g.ts).toLocaleString('ru-RU')}</div></div></li>`).join('')}</ul>` : '<p class="muted">Вы ещё ничего не генерировали.</p>'}
+      </section>
+    </div>
+    <section class="section"><div class="section-head"><h2>♥ Избранное</h2><a href="#/favorites">Все →</a></div>${grid(favs().map(s => DB.bySlug(s)).filter(Boolean).slice(0, 4))}</section>
+  </div>`;
+  $('#logout').addEventListener('click', () => { store.set('user', null); toast('Вы вышли из аккаунта'); route(); });
+  $('#prefsForm').addEventListener('submit', e => { e.preventDefault(); const fd = new FormData(e.target); store.set('prefs', { diets: fd.getAll('diets'), allergens: fd.getAll('allergens'), exclude: fd.get('exclude') || '' }); toast('Предпочтения сохранены'); });
+}
+
+/* ---------- админ-панель ---------- */
+function viewAdmin(q) {
+  setMeta('Админ-панель — Шеф AI', 'Управление рецептами'); setLd(null);
+  const tab = q.tab || 'stats';
+  const flaggedN = DB.recipes.filter(r => r.status === 'flagged').length;
+  const tabs = [['stats', '📊 Статистика'], ['recipes', '📋 Рецепты'], ['moderation', `🛡 Модерация${flaggedN ? ' (' + flaggedN + ')' : ''}`], ['batch', '⚙️ Пакетная генерация']];
+  main.innerHTML = `<div class="wrap section"><h1 style="font-size:clamp(1.6rem,3.5vw,2.4rem)">Админ-панель</h1>
+    <p class="note" style="margin-top:-6px">Демо: в продакшене доступ только для роли admin.</p>
+    <div class="tabs" role="tablist">${tabs.map(([k, v]) => `<a class="btn btn-sm" role="tab" href="#/admin?tab=${k}" aria-selected="${k === tab}" aria-pressed="${k === tab}">${v}</a>`).join('')}</div>
+    <div id="adminBody"></div></div>`;
+  ({ stats: adminStats, recipes: adminRecipes, moderation: adminModeration, batch: adminBatch })[tab]?.($('#adminBody'), q);
+}
+function adminStats(el) {
+  const g = DB.gens, day = 864e5, now = Date.now();
+  const ok = g.filter(x => x.status === 'ok'), todayN = g.filter(x => new Date(x.ts).toISOString().slice(0, 10) === today()).length;
+  const cost = g.reduce((s, x) => s + (x.cost_usd || 0), 0);
+  const errRate = g.length ? g.filter(x => x.status === 'error').length / g.length * 100 : 0;
+  const lat = ok.length ? ok.reduce((s, x) => s + x.latency_ms, 0) / ok.length / 1000 : 0;
+  const days = Array.from({ length: 7 }, (_, i) => { const d = new Date(now - (6 - i) * day); const key = d.toISOString().slice(0, 10); return { label: d.toLocaleDateString('ru-RU', { weekday: 'short', day: 'numeric' }), n: g.filter(x => new Date(x.ts).toISOString().slice(0, 10) === key).length, c: g.filter(x => new Date(x.ts).toISOString().slice(0, 10) === key).reduce((s, x) => s + (x.cost_usd || 0), 0) }; });
+  const max = Math.max(1, ...days.map(d => d.n));
+  const top = Object.entries(g.reduce((m, x) => { const k = (x.prompt || '').toLowerCase(); m[k] = (m[k] || 0) + 1; return m; }, {})).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  const st = s => DB.recipes.filter(r => r.status === s).length;
+  el.innerHTML = `<div class="stats">
+    <div class="stat"><small>Рецептов в базе</small><b>${DB.recipes.length}</b><span class="note">${st('published')} опубл. · ${st('hidden')} скрыто · ${st('flagged')} на модерации</span></div>
+    <div class="stat"><small>Генераций сегодня</small><b>${todayN}</b></div>
+    <div class="stat"><small>Всего генераций</small><b>${g.length}</b></div>
+    <div class="stat"><small>Стоимость API</small><b>$${cost.toFixed(2)}</b><span class="note">в среднем $${(cost / Math.max(1, g.length)).toFixed(3)} / генерацию (цель ≤ $0,05)</span></div>
+    <div class="stat"><small>Доля ошибок</small><b>${errRate.toFixed(1)}%</b></div>
+    <div class="stat"><small>Средняя задержка</small><b>${lat.toFixed(1)} с</b><span class="note">цель ≤ 20 с</span></div>
+  </div>
+  <div class="two-col">
+    <section class="panel"><h2 style="font-size:1.1rem">Генерации за 7 дней</h2>
+      <div class="bars" role="img" aria-label="Количество генераций по дням">${days.map(d => `<div class="bar"><b>${d.n}</b><i style="height:${d.n / max * 100}%" title="$${d.c.toFixed(2)}"></i><span>${d.label}</span></div>`).join('')}</div></section>
+    <section class="panel"><h2 style="font-size:1.1rem">Топ запросов</h2>
+      <ol class="tips">${top.map(([p, n]) => `<li>${esc(p)} <span class="muted">— ${n}</span></li>`).join('')}</ol></section>
+  </div>`;
+}
+function adminRecipes(el, q) {
+  const f = q.status || '';
+  const list = DB.recipes.filter(r => !f || r.status === f).sort((a, b) => b.created_at - a.created_at);
+  const badge = s => `<span class="badge ${s === 'published' ? '' : s === 'flagged' ? 'red' : 'neutral'}">${s}</span>`;
+  el.innerHTML = `<div class="toolbar"><span>Рецептов: ${list.length}</span><label>Статус: <select id="stF" style="width:auto;padding:6px 10px"><option value="">Все</option>${['published', 'hidden', 'flagged'].map(s => `<option ${s === f ? 'selected' : ''}>${s}</option>`).join('')}</select></label></div>
+  <div class="table-wrap"><table><thead><tr><th>Рецепт</th><th>Статус</th><th>Просмотры</th><th>👍/👎</th><th>Создан</th><th>Действия</th></tr></thead><tbody>
+  ${list.map(r => `<tr data-slug="${r.slug}"><td><a href="#/recipes/${r.slug}">${esc(r.title)}</a><div class="note" style="margin:2px 0 0">${TYPES[r.dish_type]} · ${r.nutrition.kcal} ккал</div></td><td>${badge(r.status)}</td><td>${r.views}</td><td>${r.helpful_count}/${r.unhelpful_count}</td><td>${new Date(r.created_at).toLocaleDateString('ru-RU')}</td>
+    <td style="white-space:nowrap"><button class="btn btn-sm" data-act="edit">✎</button>${r.status === 'published' ? '<button class="btn btn-sm" data-act="hide">Скрыть</button>' : '<button class="btn btn-sm" data-act="publish">Опубликовать</button>'}<button class="btn btn-sm btn-danger" data-act="delete">Удалить</button></td></tr>`).join('')}
+  </tbody></table></div>`;
+  $('#stF').addEventListener('change', e => { location.hash = '#/admin?tab=recipes' + (e.target.value ? '&status=' + e.target.value : ''); });
+  el.addEventListener('click', e => adminAction(e, () => adminRecipes(el, q)));
+}
+function adminAction(e, rerender) {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const tr = b.closest('[data-slug]'); const r = DB.bySlug(tr.dataset.slug); if (!r) return;
+  const act = b.dataset.act;
+  if (act === 'hide') { r.status = 'hidden'; toast('Рецепт скрыт и удалён из каталога и sitemap'); }
+  if (act === 'publish') { r.status = 'published'; r.reports = 0; toast('Рецепт опубликован'); }
+  if (act === 'delete') { if (!confirm(`Удалить рецепт «${r.title}»? Это действие необратимо.`)) return; DB.recipes = DB.recipes.filter(x => x !== r); store.set('favs', favs().filter(s => s !== r.slug)); updateFavCount(); toast('Рецепт удалён'); }
+  if (act === 'edit') {
+    if (tr.nextElementSibling && tr.nextElementSibling.classList.contains('edit-row')) { tr.nextElementSibling.remove(); return; }
+    tr.insertAdjacentHTML('afterend', `<tr class="edit-row"><td colspan="6"><form style="display:grid;gap:8px"><label class="field-label">Название<input type="text" name="title" value="${esc(r.title)}" maxlength="120"></label><label class="field-label">Описание<textarea name="description" rows="2">${esc(r.description)}</textarea></label><div><button class="btn btn-primary btn-sm">Сохранить</button></div></form></td></tr>`);
+    tr.nextElementSibling.querySelector('form').addEventListener('submit', ev => { ev.preventDefault(); const fd = new FormData(ev.target); r.title = fd.get('title').trim() || r.title; r.description = fd.get('description').trim(); DB.save(); toast('Изменения сохранены'); rerender(); });
+    return;
+  }
+  DB.save(); rerender();
+}
+function adminModeration(el) {
+  const list = DB.recipes.filter(r => r.status === 'flagged' || (r.reports || 0) > 0 || r.feedback.some(f => f.is_helpful === false));
+  el.innerHTML = list.length ? `<p class="muted">Рецепты с жалобами и негативными оценками. Правило: при ≥ 3 негативных оценках (больше, чем позитивных) или ≥ 2 жалобах рецепт автоматически скрывается.</p>
+    <div class="table-wrap"><table><thead><tr><th>Рецепт</th><th>Статус</th><th>Отзывы</th><th>Действия</th></tr></thead><tbody>
+    ${list.map(r => `<tr data-slug="${r.slug}"><td><a href="#/recipes/${r.slug}">${esc(r.title)}</a></td><td><span class="badge ${r.status === 'flagged' ? 'red' : r.status === 'hidden' ? 'neutral' : ''}">${r.status}</span></td>
+      <td>${r.feedback.filter(f => f.is_helpful !== true).slice(-4).map(f => `<div class="note" style="margin:0 0 4px">${esc(f.reason || 'Не полезно')}${f.comment ? ': «' + esc(f.comment) + '»' : ''}</div>`).join('') || '—'}</td>
+      <td style="white-space:nowrap"><button class="btn btn-sm" data-act="publish">Одобрить</button><button class="btn btn-sm" data-act="hide">Скрыть</button><button class="btn btn-sm btn-danger" data-act="delete">Удалить</button></td></tr>`).join('')}
+    </tbody></table></div>` : '<div class="empty"><b>🛡</b>Очередь модерации пуста</div>';
+  el.addEventListener('click', e => adminAction(e, () => adminModeration(el)));
+}
+function adminBatch(el) {
+  el.innerHTML = `<section class="panel"><h2 style="font-size:1.1rem">Пакетная генерация для наполнения каталога</h2>
+    <p class="muted">Один запрос на строку (или CSV: <code>запрос;диета</code>). Генерации из админки не расходуют пользовательский лимит.</p>
+    <form id="batchForm"><label class="sr-only" for="batchText">Список запросов</label><textarea id="batchText" rows="7" placeholder="Плов с курицей&#10;Салат с киноа и авокадо;vegan&#10;Сырники без глютена;gluten_free">Плов с курицей
+Салат с киноа и авокадо;vegan
+Крем-суп из брокколи
+Тыквенный вок с нутом;vegan
+Паста с грибами в сливочном соусе
+Кето-завтрак с яйцами и шпинатом;keto</textarea>
+    <div style="margin-top:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn btn-primary" type="submit">Запустить</button><span id="batchProg" class="muted"></span></div></form>
+    <ol id="batchOut" class="tips" style="margin-top:14px"></ol></section>`;
+  $('#batchForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const lines = $('#batchText').value.split('\n').map(x => x.trim()).filter(Boolean).slice(0, 50);
+    const out = $('#batchOut'); out.innerHTML = '';
+    const btn = e.target.querySelector('button'); btn.disabled = true;
+    for (let i = 0; i < lines.length; i++) {
+      $('#batchProg').textContent = `Обработано ${i} из ${lines.length}…`;
+      const [p, dietRaw] = lines[i].split(/[;\t]/).map(x => x && x.trim());
+      const diets = (dietRaw || '').split(/[ ,]+/).filter(d => DIETS[d]);
+      const req = parseRequest(p, [], { diets });
+      const salt = Math.floor(Math.random() * 1e9);
+      const fin = generateRecipe(req, salt);
+      const usage = fakeUsage(req);
+      if (fin.error) { out.insertAdjacentHTML('beforeend', `<li><span class="badge red">ошибка</span> ${esc(p)} — ${esc(fin.error)}</li>`); logGen({ prompt: p, status: 'error', error: fin.error, source: 'batch', ...usage }); }
+      else { const rec = makeRecipe(fin, req, salt, null); DB.recipes.push(rec); logGen({ prompt: p, recipe_slug: rec.slug, status: 'ok', source: 'batch', ...usage }); scheduleImage(rec.slug, 800 + i * 300); out.insertAdjacentHTML('beforeend', `<li><span class="badge">готово</span> <a href="#/recipes/${rec.slug}">${esc(rec.title)}</a> <span class="muted">← ${esc(p)}</span></li>`); }
+      DB.save(); await sleep(350);
+    }
+    $('#batchProg').textContent = `Готово: ${lines.length} запросов обработано.`; btn.disabled = false;
+  });
+}
+
+/* ---------- sitemap, privacy, 404 ---------- */
+function viewSitemap() {
+  setMeta('sitemap.xml — Шеф AI', 'Карта сайта'); setLd(null);
+  const base = 'https://chef-ai.example';
+  const urls = ['/', '/recipes', ...DIET_KEYS.map(d => '/recipes/diet/' + d), ...Object.keys(CUISINES).map(c => '/recipes/cuisine/' + c), ...DB.published().map(r => '/recipes/' + r.slug)];
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => { const r = DB.bySlug(u.replace('/recipes/', '')); return `  <url><loc>${base}${u}</loc>${r ? `<lastmod>${new Date(r.created_at).toISOString().slice(0, 10)}</lastmod>` : ''}</url>`; }).join('\n')}\n</urlset>`;
+  main.innerHTML = `<div class="wrap section"><h1 style="font-size:1.8rem">sitemap.xml</h1><p class="muted">Обновляется автоматически: ${urls.length} URL. Скрытые модератором рецепты не попадают в карту сайта. Домен — заглушка (название и домен — открытый вопрос PRD).</p><pre class="code">${esc(xml)}</pre></div>`;
+}
+function viewPrivacy() {
+  setMeta('Политика конфиденциальности — Шеф AI', 'Как мы обрабатываем данные'); setLd(null);
+  main.innerHTML = `<div class="wrap section" style="max-width:760px"><h1 style="font-size:2rem">Политика конфиденциальности</h1>
+  <p>Шеф AI хранит минимум данных, необходимых для работы сервиса: текст ваших запросов, сгенерированные рецепты, оценки и (при входе) email.</p>
+  <p>IP-адреса используются только для ограничения количества генераций и хранятся в виде хеша. Ключи AI API находятся исключительно на сервере.</p>
+  <p>Рецепты создаются искусственным интеллектом. КБЖУ рассчитывается приблизительно, а информация об аллергенах требует самостоятельной проверки. Не используйте рецепты как медицинскую рекомендацию.</p>
+  <p>В этой демо-версии все данные хранятся только в localStorage вашего браузера. <button class="btn btn-sm btn-danger" id="wipe">Удалить все мои данные</button></p></div>`;
+  $('#wipe').addEventListener('click', () => { if (!confirm('Удалить все локальные данные сайта (рецепты, избранное, историю)?')) return; Object.keys(localStorage).filter(k => k.startsWith('chefai.')).forEach(k => localStorage.removeItem(k)); seed(); updateFavCount(); toast('Данные удалены, каталог восстановлен'); location.hash = '#/'; });
+}
+function view404() { setMeta('Страница не найдена — Шеф AI', ''); setLd(null); main.innerHTML = `<div class="wrap section"><div class="empty"><b>🥄</b><h1 style="font-size:1.6rem">Страница не найдена</h1><p>Возможно, рецепт был удалён.</p><a class="btn btn-primary" href="#/">На главную</a></div></div>`; }
+
+/* =========================================================
+   Роутер и запуск
+   ========================================================= */
+function parseHash() {
+  const h = location.hash.replace(/^#/, '') || '/';
+  const [path, qs] = h.split('?');
+  return { path: path.replace(/\/+$/, '') || '/', q: Object.fromEntries(new URLSearchParams(qs || '')) };
+}
+function route() {
+  const { path, q } = parseHash();
+  const parts = path.split('/').filter(Boolean);
+  let nav = '';
+  if (!parts.length) { nav = 'home'; viewHome(q); }
+  else if (parts[0] === 'recipes') {
+    nav = 'recipes';
+    if (parts.length === 1) viewCatalog(q);
+    else if (parts.length === 3 && ['diet', 'cuisine', 'type'].includes(parts[1])) {
+      const ok = { diet: DIETS, cuisine: CUISINES, type: TYPES }[parts[1]][parts[2]];
+      ok ? viewCatalog(q, { [parts[1]]: parts[2] }) : view404();
+    } else viewRecipe(parts[1], q);
+  }
+  else if (parts[0] === 'favorites') { nav = 'favorites'; viewFavorites(); }
+  else if (parts[0] === 'account') { nav = 'account'; viewAccount(); }
+  else if (parts[0] === 'admin') { nav = 'admin'; viewAdmin(q); }
+  else if (parts[0] === 'sitemap.xml') viewSitemap();
+  else if (parts[0] === 'privacy') viewPrivacy();
+  else view404();
+  $$('.nav a').forEach(a => a.dataset.nav === nav ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+}
+let lastPath = null;
+window.addEventListener('hashchange', () => {
+  const { path } = parseHash();
+  route();
+  if (path !== lastPath) { window.scrollTo(0, 0); main.focus({ preventScroll: true }); }
+  lastPath = path;
+});
+
+// избранное — делегирование
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-fav]'); if (!b) return;
+  e.preventDefault();
+  const on = toggleFav(b.dataset.fav);
+  $$(`[data-fav="${b.dataset.fav}"]`).forEach(x => {
+    x.setAttribute('aria-pressed', on);
+    if (x.classList.contains('fav-btn')) { x.textContent = on ? '♥' : '♡'; x.setAttribute('aria-label', on ? 'Убрать из избранного' : 'В избранное'); }
+    else x.textContent = on ? '♥ В избранном' : '♡ В избранное';
+  });
+  toast(on ? 'Добавлено в избранное' : 'Удалено из избранного');
+});
+
+// тема
+const THEMES = ['auto', 'light', 'dark'];
+function applyTheme(t) { if (t === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', t); $('#themeBtn').textContent = { auto: '🌓', light: '☀️', dark: '🌙' }[t]; $('#themeBtn').setAttribute('aria-label', 'Тема: ' + { auto: 'как в системе', light: 'светлая', dark: 'тёмная' }[t]); }
+let theme = store.get('theme', 'auto'); applyTheme(theme);
+$('#themeBtn').addEventListener('click', () => { theme = THEMES[(THEMES.indexOf(theme) + 1) % 3]; store.set('theme', theme); applyTheme(theme); });
+
+// cookies
+if (!store.get('cookies', null)) {
+  $('#cookieSlot').innerHTML = `<div class="cookie" role="dialog" aria-label="Согласие на cookies"><p>🍪 Мы используем только необходимые cookies и локальное хранилище для работы сайта. Аналитика — только с вашего согласия. <a href="#/privacy">Подробнее</a></p>
+    <button class="btn btn-sm" data-ck="necessary">Только необходимые</button><button class="btn btn-sm btn-primary" data-ck="all">Принять все</button></div>`;
+  $$('[data-ck]').forEach(b => b.addEventListener('click', () => { store.set('cookies', b.dataset.ck); $('#cookieSlot').innerHTML = ''; }));
+}
+
+seed();
+DB.recipes.filter(r => r.image_status !== 'ready').forEach(r => scheduleImage(r.slug, 1200));
+updateFavCount();
+lastPath = parseHash().path;
+route();
+</script>
+</body>
+</html>
